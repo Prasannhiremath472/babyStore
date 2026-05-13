@@ -1,12 +1,13 @@
 {
   "name": "mybaby-store",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "My Baby — The New Born Baby Shop",
-  "main": "backend/dist/server.js",
+  "main": "backend/server.js",
   "scripts": {
-    "start": "node backend/dist/server.js",
-    "build": "cd backend && npm install && npx prisma generate && npx tsc",
-    "dev": "cd backend && npm run dev"
+    "start":          "node backend/server.js",
+    "build":          "cd backend && npm install",
+    "dev:backend":    "cd backend && npm run dev",
+    "dev:frontend":   "cd frontend && npm run dev"
   },
   "engines": {
     "node": ">=18.0.0"
