@@ -34,15 +34,32 @@ app.use(helmet({
 // ========================
 // CORS
 // ========================
+const ALLOWED_ORIGINS = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'http://localhost:5173',
+  'https://mybabystore.net',
+  'https://www.mybabystore.net',
+  process.env.FRONTEND_URL,
+  process.env.ADMIN_URL,
+].filter(Boolean) as string[];
+
 app.use(cors({
-  origin: [
-    process.env.FRONTEND_URL || 'http://localhost:3000',
-    process.env.ADMIN_URL || 'http://localhost:3001',
-  ],
+  origin: (origin, callback) => {
+    // Allow requests with no origin (mobile apps, curl, Postman)
+    if (!origin) return callback(null, true);
+    if (ALLOWED_ORIGINS.includes(origin)) return callback(null, true);
+    // Allow any subdomain of mybabystore.net
+    if (/^https?:\/\/([a-z0-9-]+\.)*mybabystore\.net$/.test(origin)) return callback(null, true);
+    callback(new Error(`CORS: origin ${origin} not allowed`));
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
 }));
+
+// Explicitly handle preflight for all routes
+app.options('*', cors());
 
 // ========================
 // Rate Limiting

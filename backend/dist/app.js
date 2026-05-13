@@ -30,15 +30,30 @@ app.use((0, helmet_1.default)({
     },
     crossOriginEmbedderPolicy: false,
 }));
+const ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'http://localhost:5173',
+    'https://mybabystore.net',
+    'https://www.mybabystore.net',
+    process.env.FRONTEND_URL,
+    process.env.ADMIN_URL,
+].filter(Boolean);
 app.use((0, cors_1.default)({
-    origin: [
-        process.env.FRONTEND_URL || 'http://localhost:3000',
-        process.env.ADMIN_URL || 'http://localhost:3001',
-    ],
+    origin: (origin, callback) => {
+        if (!origin)
+            return callback(null, true);
+        if (ALLOWED_ORIGINS.includes(origin))
+            return callback(null, true);
+        if (/^https?:\/\/([a-z0-9-]+\.)*mybabystore\.net$/.test(origin))
+            return callback(null, true);
+        callback(new Error(`CORS: origin ${origin} not allowed`));
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
 }));
+app.options('*', (0, cors_1.default)());
 const globalLimiter = (0, express_rate_limit_1.default)({
     windowMs: 15 * 60 * 1000,
     max: 500,
