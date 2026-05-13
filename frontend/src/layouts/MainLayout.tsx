@@ -2,7 +2,6 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
-import MiniCart from '../components/cart/MiniCart';
 import MobileMenu from '../components/layout/MobileMenu';
 import SearchOverlay from '../components/layout/SearchOverlay';
 
@@ -24,7 +23,6 @@ export default function MainLayout() {
         <Outlet />
       </main>
       {!hideFooter && <Footer />}
-      <MiniCart />
       <MobileMenu />
       <SearchOverlay />
     </div>

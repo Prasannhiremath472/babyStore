@@ -6,7 +6,7 @@ import {
   Phone, Tag, Truck, MapPin, Bell, Sparkles, ChevronRight, Baby
 } from 'lucide-react';
 import { useAppSelector, useAppDispatch } from '../../store';
-import { toggleMobileMenu, toggleSearch, toggleMiniCart } from '../../store/slices/uiSlice';
+import { toggleMobileMenu, toggleSearch } from '../../store/slices/uiSlice';
 import { logoutThunk } from '../../store/slices/authSlice';
 import toast from 'react-hot-toast';
 
@@ -54,7 +54,6 @@ export default function Header() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { isAuthenticated, user } = useAppSelector(s => s.auth);
-  const { itemCount } = useAppSelector(s => s.cart);
   const megaMenuRef = useRef<HTMLDivElement>(null);
   const menuTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -163,15 +162,10 @@ export default function Header() {
                 </Link>
               )}
 
-              {/* Cart */}
-              <button onClick={() => dispatch(toggleMiniCart())} className="relative p-2.5 rounded-xl hover:bg-primary-50 transition-colors group">
+              {/* Cart — goes directly to cart page */}
+              <Link to="/cart" className="relative p-2.5 rounded-xl hover:bg-primary-50 transition-colors group">
                 <ShoppingCart className="w-5 h-5 text-foreground group-hover:text-primary transition-colors" />
-                {itemCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 bg-secondary text-primary text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-yellow-glow border border-white">
-                    {itemCount > 99 ? '99+' : itemCount}
-                  </span>
-                )}
-              </button>
+              </Link>
 
               {/* Account */}
               {isAuthenticated ? (
