@@ -3,18 +3,19 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import apiClient from '../../services/api/client';
+import { CATEGORY_IMAGES, PRODUCT_IMAGES } from '../../constants/images';
 
 const FALLBACK_CATEGORIES = [
-  { name: 'Baby Clothing',      icon: '👕', slug: 'baby-clothing',      image: 'https://images.unsplash.com/photo-1522771930-78848d9293e8?w=500&q=80' },
-  { name: 'Toys & Games',       icon: '🧸', slug: 'toys-games',          image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&q=80' },
-  { name: 'Feeding Essentials', icon: '🍼', slug: 'feeding-essentials',  image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=500&q=80' },
-  { name: 'Baby Gear',          icon: '🚼', slug: 'baby-gear',            image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=500&q=80' },
-  { name: 'Bath & Skin Care',   icon: '🛁', slug: 'bath-skin-care',       image: 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=500&q=80' },
-  { name: 'School Essentials',  icon: '🎒', slug: 'school-essentials',   image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=500&q=80' },
-  { name: 'Nursery',            icon: '🛏️', slug: 'nursery',              image: 'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=500&q=80' },
-  { name: 'Footwear',           icon: '👟', slug: 'footwear',             image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80' },
-  { name: 'Diapers & Wipes',    icon: '🧷', slug: 'diapers-wipes',        image: 'https://images.unsplash.com/photo-1519689680058-324335c77eba?w=500&q=80' },
-  { name: 'Health & Safety',    icon: '🏥', slug: 'health-safety',        image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=500&q=80' },
+  { name: 'Baby Clothing',      icon: '👕', slug: 'baby-clothing',      image: CATEGORY_IMAGES['baby-clothing'] },
+  { name: 'Toys & Games',       icon: '🧸', slug: 'toys-games',          image: CATEGORY_IMAGES['toys-games'] },
+  { name: 'Feeding Essentials', icon: '🍼', slug: 'feeding-essentials',  image: CATEGORY_IMAGES['feeding-essentials'] },
+  { name: 'Baby Gear',          icon: '🚼', slug: 'baby-gear',            image: CATEGORY_IMAGES['baby-gear'] },
+  { name: 'Bath & Skin Care',   icon: '🛁', slug: 'bath-skin-care',       image: CATEGORY_IMAGES['bath-skin-care'] },
+  { name: 'School Essentials',  icon: '🎒', slug: 'school-essentials',   image: CATEGORY_IMAGES['school-essentials'] },
+  { name: 'Nursery',            icon: '🛏️', slug: 'nursery',              image: CATEGORY_IMAGES['nursery'] },
+  { name: 'Footwear',           icon: '👟', slug: 'footwear',             image: CATEGORY_IMAGES['footwear'] },
+  { name: 'Diapers & Wipes',    icon: '🧷', slug: 'diapers-wipes',        image: CATEGORY_IMAGES['diapers-wipes'] },
+  { name: 'Health & Safety',    icon: '🏥', slug: 'health-safety',        image: CATEGORY_IMAGES['health-safety'] },
 ];
 
 export default function ShopByCategory() {
@@ -28,7 +29,7 @@ export default function ShopByCategory() {
   // merge images into API data
   const categories = raw.map((c: any) => ({
     ...c,
-    image: c.image || FALLBACK_CATEGORIES.find(f => f.slug === c.slug)?.image || 'https://images.unsplash.com/photo-1519689680058-324335c77eba?w=500&q=80',
+    image: c.image || FALLBACK_CATEGORIES.find((f: any) => f.slug === c.slug)?.image || PRODUCT_IMAGES['default'],
   }));
 
   return (
@@ -73,7 +74,7 @@ export default function ShopByCategory() {
                     alt={cat.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
-                    onError={e => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1519689680058-324335c77eba?w=500&q=80'; }}
+                    onError={e => { (e.target as HTMLImageElement).src = PRODUCT_IMAGES['default']; }}
                   />
                   {/* Gradient overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/15 to-transparent opacity-90" />

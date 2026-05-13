@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Heart, ShoppingCart, Clock, Bookmark } from 'lucide-react';
 import { useAppSelector, useAppDispatch } from '../../store';
+import ProductImage from '../ui/ProductImage';
 import { cartApi } from '../../services/api/cart.api';
 import { setCart } from '../../store/slices/cartSlice';
 import toast from 'react-hot-toast';
@@ -85,16 +86,12 @@ export default function ProductCard({ product, showBestseller }: Props) {
         </button>
 
         {/* Product image */}
-        {image ? (
-          <img
-            src={image}
-            alt={product.name}
-            className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-300"
-            loading="lazy"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center text-5xl p-4">🧸</div>
-        )}
+        <ProductImage
+          src={image}
+          alt={product.name}
+          categorySlug={product.categories?.[0]?.category?.slug}
+          className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-300"
+        />
 
         {/* Out of stock overlay */}
         {!isInStock && (

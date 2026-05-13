@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Star, ShoppingBag, Sparkles, Shield, Truck, RotateCcw } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import apiClient from '../../services/api/client';
+import { HERO_IMAGES } from '../../constants/images';
 
 const FALLBACK_SLIDES = [
   {
@@ -11,7 +12,7 @@ const FALLBACK_SLIDES = [
     title: 'Everything Your\nLittle One Needs',
     subtitle: 'The New Born Baby Shop',
     description: 'Curated with love — organic clothing, safe toys, feeding essentials and skincare for your precious baby.',
-    image: 'https://images.unsplash.com/photo-1519689680058-324335c77eba?w=1400&q=90',
+    image: HERO_IMAGES.baby,
     cta: { label: 'Shop Now', href: '/products' },
     ctaSecondary: { label: 'New Arrivals', href: '/products?isNew=true' },
     badge: '🎁 WELCOME10 — 10% off',
@@ -23,7 +24,7 @@ const FALLBACK_SLIDES = [
     title: 'Toys That Teach\n& Delight',
     subtitle: 'Up to 50% Off on Toys & Games',
     description: 'BIS-certified, safe and educational toys designed to spark curiosity and creativity in every child.',
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=90',
+    image: HERO_IMAGES.toys,
     cta: { label: 'Shop Toys', href: '/category/toys-games' },
     ctaSecondary: { label: 'View Sale', href: '/products?hasDiscount=true' },
     badge: '⚡ Flash Sale Live',
@@ -35,7 +36,7 @@ const FALLBACK_SLIDES = [
     title: 'Pure Skincare\nFor Baby Skin',
     subtitle: 'Dermatologist Tested & Approved',
     description: 'Gentle, organic baby skincare — shampoos, lotions, massage oils and rash creams safe for newborns.',
-    image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1400&q=90',
+    image: HERO_IMAGES.skincare,
     cta: { label: 'Shop Skincare', href: '/category/bath-skin-care' },
     ctaSecondary: { label: 'Learn More', href: '/products?isNew=true' },
     badge: '🌿 100% Organic',

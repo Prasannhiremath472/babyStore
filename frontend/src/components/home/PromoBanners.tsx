@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import { BANNER_IMAGES } from '../../constants/images';
 
 const BANNERS = [
   {
@@ -8,7 +9,7 @@ const BANNERS = [
     desc: 'Create the perfect, safe space for your little one',
     cta: 'Shop Nursery',
     href: '/category/nursery',
-    image: 'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=700&q=85',
+    image: BANNER_IMAGES.nursery,
     badge: '🛏️ New Season',
     gradient: 'from-primary/70 via-primary/30 to-transparent',
   },
@@ -17,7 +18,7 @@ const BANNERS = [
     desc: "Comfort & care for every stage of motherhood",
     cta: 'Shop Maternity',
     href: '/category/maternity',
-    image: 'https://images.unsplash.com/photo-1519689680058-324335c77eba?w=700&q=85',
+    image: BANNER_IMAGES.maternity,
     badge: '🤱 For New Moms',
     gradient: 'from-primary-800/70 via-primary-600/30 to-transparent',
   },
