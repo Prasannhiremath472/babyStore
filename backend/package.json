@@ -5,8 +5,9 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc",
+    "build": "npx prisma generate && npx tsc",
     "start": "node dist/server.js",
+    "postinstall": "npx prisma generate",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:migrate:prod": "prisma migrate deploy",
@@ -50,7 +51,10 @@
     "exceljs": "^4.4.0",
     "pdfkit": "^0.15.0",
     "socket.io": "^4.7.4",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "typescript": "^5.4.2",
+    "prisma": "^5.10.0",
+    "tsx": "^4.7.1"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
@@ -65,9 +69,6 @@
     "@types/nodemailer": "^6.4.14",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.6",
-    "@types/uuid": "^9.0.8",
-    "prisma": "^5.10.0",
-    "tsx": "^4.7.1",
-    "typescript": "^5.4.2"
+    "@types/uuid": "^9.0.8"
   }
 }
