@@ -1,0 +1,16 @@
+{
+  "name": "mybaby-store",
+  "version": "1.0.0",
+  "description": "My Baby — The New Born Baby Shop",
+  "main": "backend/dist/server.js",
+  "scripts": {
+    "start": "node backend/dist/server.js",
+    "build": "cd backend && npm install && npm run build && cd ../frontend && npm install && npm run build",
+    "install:all": "cd backend && npm install && cd ../frontend && npm install",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
