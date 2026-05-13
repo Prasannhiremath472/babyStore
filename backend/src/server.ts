@@ -12,19 +12,27 @@ const PORT = process.env.PORT || 4000;
 
 async function bootstrap() {
   try {
-    await connectDatabase();
+    // Try DB connection — log error but don't crash so Hostinger keeps the process alive
+    try {
+      await connectDatabase();
+    } catch (dbError) {
+      logger.error('Database connection failed — check DATABASE_URL env var', dbError);
+      logger.warn('Server starting without DB — requests will fail until DB is available');
+    }
 
     const httpServer = http.createServer(app);
     initSocketServer(httpServer);
 
     httpServer.listen(PORT, () => {
-      logger.info(`LittleNest API running on port ${PORT} [${process.env.NODE_ENV}]`);
+      logger.info(`My Baby API running on port ${PORT} [${process.env.NODE_ENV}]`);
+      logger.info(`DATABASE_URL set: ${!!process.env.DATABASE_URL}`);
+      logger.info(`REDIS_URL: ${process.env.REDIS_URL || 'not set (using default)'}`);
     });
 
     process.on('SIGTERM', () => gracefulShutdown(httpServer));
     process.on('SIGINT', () => gracefulShutdown(httpServer));
   } catch (error) {
-    logger.error('Failed to start server', error);
+    logger.error('Fatal server error', error);
     process.exit(1);
   }
 }
