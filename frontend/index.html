@@ -2,16 +2,148 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- ── Favicon ── -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#3D35A8" />
-    <title>My Baby - The New Born Baby Shop</title>
-    <meta name="description" content="India's finest newborn & baby products store. Shop organic clothing, toys, feeding essentials and more with free delivery above ₹499." />
-    <!-- Razorpay SDK -->
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <!-- Preconnect for performance -->
+    <meta name="msapplication-TileColor" content="#3D35A8" />
+
+    <!-- ── Primary SEO ── -->
+    <title>My Baby — The New Born Baby Shop | Premium Baby & Kids Products India</title>
+    <meta name="description" content="Shop India's finest baby & kids products at My Baby. Premium organic clothing, safe toys, feeding essentials, skincare & baby gear. Free delivery above ₹499. BIS certified products." />
+    <meta name="keywords" content="baby products online, baby clothing India, baby toys, baby skincare, newborn products, baby gear, feeding essentials, diapers, baby store India, organic baby products, kids clothing, baby care" />
+    <meta name="author" content="My Baby Store" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href="https://www.mybabystore.net/" />
+
+    <!-- ── Open Graph (Facebook, WhatsApp) ── -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="My Baby" />
+    <meta property="og:title" content="My Baby — The New Born Baby Shop | Premium Baby & Kids Products" />
+    <meta property="og:description" content="India's finest baby & kids products. Premium organic clothing, safe toys, feeding essentials & skincare. Free delivery above ₹499." />
+    <meta property="og:url" content="https://www.mybabystore.net/" />
+    <meta property="og:image" content="https://www.mybabystore.net/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="My Baby — Premium Baby Products Store India" />
+    <meta property="og:locale" content="en_IN" />
+
+    <!-- ── Twitter Card ── -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@MyBabyStore" />
+    <meta name="twitter:title" content="My Baby — The New Born Baby Shop" />
+    <meta name="twitter:description" content="India's finest baby & kids products. Premium organic clothing, toys, feeding essentials & skincare. Free delivery above ₹499." />
+    <meta name="twitter:image" content="https://www.mybabystore.net/og-image.jpg" />
+
+    <!-- ── Geo / Local SEO ── -->
+    <meta name="geo.region" content="IN" />
+    <meta name="geo.placename" content="India" />
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="3 days" />
+    <meta name="rating" content="general" />
+
+    <!-- ── JSON-LD Structured Data ── -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "My Baby",
+      "alternateName": "My Baby Store",
+      "url": "https://www.mybabystore.net",
+      "logo": "https://www.mybabystore.net/logo.png",
+      "description": "India's premium destination for newborn and baby products. Curated with love for 50,000+ happy families.",
+      "foundingDate": "2024",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+91-1800-123-4567",
+        "contactType": "customer service",
+        "areaServed": "IN",
+        "availableLanguage": ["English", "Hindi"]
+      },
+      "sameAs": [
+        "https://www.facebook.com/mybabystore",
+        "https://www.instagram.com/mybabystore",
+        "https://twitter.com/MyBabyStore"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "42 MG Road, Koramangala",
+        "addressLocality": "Bengaluru",
+        "addressRegion": "Karnataka",
+        "postalCode": "560034",
+        "addressCountry": "IN"
+      }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "My Baby",
+      "url": "https://www.mybabystore.net",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://www.mybabystore.net/search?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Store",
+      "name": "My Baby",
+      "image": "https://www.mybabystore.net/og-image.jpg",
+      "description": "Premium baby and kids products store in India",
+      "priceRange": "₹₹",
+      "currenciesAccepted": "INR",
+      "paymentAccepted": "Cash, Credit Card, Debit Card, UPI, Net Banking",
+      "url": "https://www.mybabystore.net",
+      "telephone": "+91-1800-123-4567",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "42 MG Road, Koramangala",
+        "addressLocality": "Bengaluru",
+        "addressRegion": "Karnataka",
+        "postalCode": "560034",
+        "addressCountry": "IN"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+          "opens": "09:00",
+          "closes": "21:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Sunday",
+          "opens": "10:00",
+          "closes": "20:00"
+        }
+      ]
+    }
+    </script>
+
+    <!-- ── Preconnect for performance ── -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://images.unsplash.com" />
+    <link rel="dns-prefetch" href="https://checkout.razorpay.com" />
+
+    <!-- ── Razorpay SDK ── -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
   </head>
   <body>
     <div id="root"></div>

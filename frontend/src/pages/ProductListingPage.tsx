@@ -275,7 +275,19 @@ export default function ProductListingPage() {
   return (
     <>
       <Helmet>
-        <title>{pageTitle} — My Baby</title>
+        <title>{pageTitle} — My Baby | Buy Baby Products Online India</title>
+        <meta name="description" content={
+          filters.search
+            ? `Search results for "${filters.search}" — Shop baby products at My Baby. Free delivery above ₹499.`
+            : currentCatName
+              ? `Buy ${currentCatName} online at My Baby. Best prices, BIS certified, free delivery above ₹499. ${total > 0 ? `${total}+ products` : ''} available.`
+              : `Shop 1500+ premium baby & kids products at My Baby. Organic clothing, toys, skincare & more. Free delivery above ₹499.`
+        } />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href={`https://www.mybabystore.net${slug ? `/category/${slug}` : '/products'}`} />
+        <meta property="og:title" content={`${pageTitle} — My Baby`} />
+        <meta property="og:description" content={currentCatName ? `Buy ${currentCatName} online at My Baby India.` : 'Shop premium baby products online in India.'} />
+        <meta property="og:type" content="website" />
       </Helmet>
 
       <div className="min-h-screen bg-[#F8F7FF]">

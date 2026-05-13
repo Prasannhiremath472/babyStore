@@ -21,7 +21,9 @@ export default function SearchPage() {
   return (
     <>
       <Helmet>
-        <title>Search: {query} - LittleNest</title>
+        <title>{query ? `"${query}" — Search Results` : 'Search'} | My Baby</title>
+        <meta name="description" content={query ? `Search results for "${query}" at My Baby. Shop baby products, clothing, toys & more in India.` : 'Search for baby products at My Baby India.'} />
+        <meta name="robots" content="noindex, follow" />
       </Helmet>
       <div className="min-h-screen bg-gray-50">
         <div className="bg-white border-b">

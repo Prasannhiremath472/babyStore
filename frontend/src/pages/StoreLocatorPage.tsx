@@ -146,7 +146,13 @@ export default function StoreLocatorPage() {
   return (
     <>
       <Helmet>
-        <title>Store Locator — My Baby | Find a Store Near You</title>
+        <title>Store Locator — My Baby | Find Baby Store Near You in India</title>
+        <meta name="description" content="Find My Baby stores near you across India. Get directions, store timings, phone numbers and in-store services. Locations in Bengaluru, Mumbai, Delhi, Chennai & more." />
+        <meta name="keywords" content="My Baby store near me, baby store location, baby shop India, baby store Bengaluru, baby store Mumbai" />
+        <link rel="canonical" href="https://www.mybabystore.net/store-locator" />
+        <meta property="og:title" content="Store Locator — Find My Baby Store Near You" />
+        <meta property="og:description" content="Find My Baby stores near you across India with directions and store hours." />
+        <meta property="og:url" content="https://www.mybabystore.net/store-locator" />
       </Helmet>
 
       {/* Full-height layout — fills parent flex column */}
