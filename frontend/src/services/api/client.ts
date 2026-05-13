@@ -2,7 +2,18 @@ import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { store } from '../../store';
 import { clearCredentials } from '../../store/slices/authSlice';
 
-const BASE_URL = import.meta.env.VITE_API_URL || '/api/v1';
+const getBaseUrl = () => {
+  // Explicit env var always wins
+  if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL;
+  // Auto-detect production domain
+  if (typeof window !== 'undefined' && window.location.hostname.includes('mybabystore.net')) {
+    return 'https://api.mybabystore.net/api/v1';
+  }
+  // Local development
+  return 'http://localhost:4000/api/v1';
+};
+
+const BASE_URL = getBaseUrl();
 
 export const apiClient = axios.create({
   baseURL: BASE_URL,

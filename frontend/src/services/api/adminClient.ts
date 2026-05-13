@@ -1,6 +1,14 @@
 import axios from 'axios';
 
-const BASE_URL = import.meta.env.VITE_API_URL || '/api/v1';
+const getBaseUrl = () => {
+  if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL;
+  if (typeof window !== 'undefined' && window.location.hostname.includes('mybabystore.net')) {
+    return 'https://api.mybabystore.net/api/v1';
+  }
+  return 'http://localhost:4000/api/v1';
+};
+
+const BASE_URL = getBaseUrl();
 
 export const adminApiClient = axios.create({
   baseURL: BASE_URL,
