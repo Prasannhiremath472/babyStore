@@ -4,10 +4,9 @@
   "description": "My Baby — The New Born Baby Shop",
   "main": "backend/server.js",
   "scripts": {
-    "start":          "node backend/server.js",
-    "build":          "cd backend && npm install",
-    "dev:backend":    "cd backend && npm run dev",
-    "dev:frontend":   "cd frontend && npm run dev"
+    "start": "node backend/server.js",
+    "install": "cd backend && npm install",
+    "build": "cd backend && npm install"
   },
   "engines": {
     "node": ">=18.0.0"
