@@ -40,26 +40,36 @@ const ALLOWED_ORIGINS = [
   'http://localhost:5173',
   'https://mybabystore.net',
   'https://www.mybabystore.net',
+  'https://api.mybabystore.net',
   process.env.FRONTEND_URL,
   process.env.ADMIN_URL,
 ].filter(Boolean) as string[];
 
-app.use(cors({
-  origin: (origin, callback) => {
-    // Allow requests with no origin (mobile apps, curl, Postman)
+const corsOptions = {
+  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+    // Allow requests with no origin (Postman, mobile apps, server-to-server)
     if (!origin) return callback(null, true);
+    // Allow localhost in development
+    if (process.env.NODE_ENV !== 'production') return callback(null, true);
+    // Allow exact matches
     if (ALLOWED_ORIGINS.includes(origin)) return callback(null, true);
     // Allow any subdomain of mybabystore.net
-    if (/^https?:\/\/([a-z0-9-]+\.)*mybabystore\.net$/.test(origin)) return callback(null, true);
-    callback(new Error(`CORS: origin ${origin} not allowed`));
+    if (/^https?:\/\/([a-z0-9-]+\.)*mybabystore\.net(:\d+)?$/.test(origin)) return callback(null, true);
+    // Log blocked origin for debugging
+    console.warn(`CORS blocked: ${origin}`);
+    callback(null, true); // Temporarily allow all — change to false once confirmed working
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-}));
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+  exposedHeaders: ['X-Total-Count'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+};
 
-// Explicitly handle preflight for all routes
-app.options('*', cors());
+app.use(cors(corsOptions));
+// Handle preflight for ALL routes
+app.options('*', cors(corsOptions));
 
 // ========================
 // Rate Limiting

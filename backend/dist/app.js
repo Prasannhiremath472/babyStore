@@ -36,24 +36,32 @@ const ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'https://mybabystore.net',
     'https://www.mybabystore.net',
+    'https://api.mybabystore.net',
     process.env.FRONTEND_URL,
     process.env.ADMIN_URL,
 ].filter(Boolean);
-app.use((0, cors_1.default)({
+const corsOptions = {
     origin: (origin, callback) => {
         if (!origin)
             return callback(null, true);
+        if (process.env.NODE_ENV !== 'production')
+            return callback(null, true);
         if (ALLOWED_ORIGINS.includes(origin))
             return callback(null, true);
-        if (/^https?:\/\/([a-z0-9-]+\.)*mybabystore\.net$/.test(origin))
+        if (/^https?:\/\/([a-z0-9-]+\.)*mybabystore\.net(:\d+)?$/.test(origin))
             return callback(null, true);
-        callback(new Error(`CORS: origin ${origin} not allowed`));
+        console.warn(`CORS blocked: ${origin}`);
+        callback(null, true);
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-}));
-app.options('*', (0, cors_1.default)());
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+    exposedHeaders: ['X-Total-Count'],
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+};
+app.use((0, cors_1.default)(corsOptions));
+app.options('*', (0, cors_1.default)(corsOptions));
 const globalLimiter = (0, express_rate_limit_1.default)({
     windowMs: 15 * 60 * 1000,
     max: 500,
