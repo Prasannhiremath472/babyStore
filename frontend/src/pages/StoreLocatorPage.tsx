@@ -13,7 +13,7 @@ const STORES = [
     phone: '+91 80 4123 5678',
     lat: 12.9352,
     lng: 77.6245,
-    image: '/images/store/store-front.jpg',
+    image: 'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=120&q=80',
     mapUrl: 'https://www.google.com/maps/search/My+Baby+Store+Koramangala+Bengaluru',
   },
   {
@@ -25,7 +25,7 @@ const STORES = [
     phone: '+91 80 4234 6789',
     lat: 12.9784,
     lng: 77.6408,
-    image: '/images/store/store-front.jpg',
+    image: 'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=120&q=80',
     mapUrl: 'https://www.google.com/maps/search/My+Baby+Store+Indiranagar+Bengaluru',
   },
   {
@@ -37,7 +37,7 @@ const STORES = [
     phone: '+91 80 4345 7890',
     lat: 12.9698,
     lng: 77.7500,
-    image: '/images/store/store-front.jpg',
+    image: 'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=120&q=80',
     mapUrl: 'https://www.google.com/maps/search/My+Baby+Store+Whitefield+Bengaluru',
   },
   {
@@ -49,7 +49,7 @@ const STORES = [
     phone: '+91 22 4345 7890',
     lat: 19.1362,
     lng: 72.8296,
-    image: '/images/store/store-front.jpg',
+    image: 'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=120&q=80',
     mapUrl: 'https://www.google.com/maps/search/My+Baby+Store+Andheri+West+Mumbai',
   },
   {
@@ -61,7 +61,7 @@ const STORES = [
     phone: '+91 22 4456 8901',
     lat: 19.0596,
     lng: 72.8295,
-    image: '/images/store/store-front.jpg',
+    image: 'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=120&q=80',
     mapUrl: 'https://www.google.com/maps/search/My+Baby+Store+Bandra+West+Mumbai',
   },
   {
@@ -73,7 +73,7 @@ const STORES = [
     phone: '+91 22 4567 9012',
     lat: 19.1176,
     lng: 72.9060,
-    image: '/images/store/store-front.jpg',
+    image: 'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=120&q=80',
     mapUrl: 'https://www.google.com/maps/search/My+Baby+Store+Powai+Mumbai',
   },
   {
@@ -85,7 +85,7 @@ const STORES = [
     phone: '+91 11 4567 9012',
     lat: 28.6315,
     lng: 77.2167,
-    image: '/images/store/store-front.jpg',
+    image: 'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=120&q=80',
     mapUrl: 'https://www.google.com/maps/search/My+Baby+Store+Connaught+Place+Delhi',
   },
   {
@@ -97,7 +97,7 @@ const STORES = [
     phone: '+91 44 4678 0123',
     lat: 13.0850,
     lng: 80.2101,
-    image: '/images/store/store-front.jpg',
+    image: 'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=120&q=80',
     mapUrl: 'https://www.google.com/maps/search/My+Baby+Store+Anna+Nagar+Chennai',
   },
 ];

@@ -36,10 +36,10 @@ function CountdownTimer({ targetDate }: { targetDate: Date }) {
 }
 
 const SALE_PRODUCTS = [
-  { name: 'Baby Carrier Ergonomic Wrap', originalPrice: 3499, salePrice: 1749, discount: 50, image: SALE_IMAGES.carrier,  slug: 'baby-carrier-ergonomic-wrap', sold: 68 },
-  { name: 'Wooden Shape Sorter Cube',    originalPrice: 1299, salePrice:  649, discount: 50, image: SALE_IMAGES.sorter,   slug: 'wooden-shape-sorter-cube',    sold: 82 },
-  { name: 'Baby Bath Tub w/ Gauge',      originalPrice: 1799, salePrice:  999, discount: 44, image: SALE_IMAGES.bathtub,  slug: 'baby-bath-tub',               sold: 55 },
-  { name: 'Kids School Backpack',        originalPrice: 1999, salePrice: 1099, discount: 45, image: SALE_IMAGES.backpack, slug: 'kids-school-backpack',        sold: 74 },
+  { name: 'Baby Carrier Ergonomic Wrap', originalPrice: 3499, salePrice: 1749, discount: 50, image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400&q=80', slug: 'baby-carrier-ergonomic-wrap', sold: 68 },
+  { name: 'Wooden Shape Sorter Cube',    originalPrice: 1299, salePrice:  649, discount: 50, image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80', slug: 'wooden-shape-sorter-cube',    sold: 82 },
+  { name: 'Baby Bath Tub w/ Gauge',      originalPrice: 1799, salePrice:  999, discount: 44, image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80', slug: 'baby-bath-tub',               sold: 55 },
+  { name: 'Kids School Backpack',        originalPrice: 1999, salePrice: 1099, discount: 45, image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&q=80', slug: 'kids-school-backpack',        sold: 74 },
 ];
 
 export default function FlashSaleSection() {

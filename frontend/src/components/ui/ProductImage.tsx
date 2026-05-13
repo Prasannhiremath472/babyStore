@@ -18,13 +18,12 @@ interface Props {
 export default function ProductImage({ src, alt, categorySlug, className = '', fallbackEmoji = '🧸' }: Props) {
   const [errored, setErrored] = useState(false);
 
-  // Determine the best image source
-  const isExternal = src && (src.includes('unsplash.com') || src.includes('cloudinary.com'));
+  // Use src as-is (including Unsplash URLs) — only fall back on error
   const localFallback = categorySlug
     ? PRODUCT_IMAGES[categorySlug] || PRODUCT_IMAGES['default']
     : PRODUCT_IMAGES['default'];
 
-  const imgSrc = errored || isExternal ? localFallback : (src || localFallback);
+  const imgSrc = errored ? localFallback : (src || localFallback);
 
   return (
     <img
