@@ -1,0 +1,33 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const auth_routes_1 = __importDefault(require("../modules/auth/auth.routes"));
+const product_routes_1 = __importDefault(require("../modules/products/product.routes"));
+const order_routes_1 = __importDefault(require("../modules/orders/order.routes"));
+const cart_routes_1 = __importDefault(require("../modules/cart/cart.routes"));
+const user_routes_1 = __importDefault(require("../modules/users/user.routes"));
+const category_routes_1 = __importDefault(require("../modules/categories/category.routes"));
+const brand_routes_1 = __importDefault(require("../modules/brands/brand.routes"));
+const review_routes_1 = __importDefault(require("../modules/reviews/review.routes"));
+const coupon_routes_1 = __importDefault(require("../modules/coupons/coupon.routes"));
+const banner_routes_1 = __importDefault(require("../modules/banners/banner.routes"));
+const analytics_routes_1 = __importDefault(require("../modules/analytics/analytics.routes"));
+const audit_routes_1 = __importDefault(require("../modules/audit/audit.routes"));
+const router = (0, express_1.Router)();
+router.use('/auth', auth_routes_1.default);
+router.use('/products', product_routes_1.default);
+router.use('/orders', order_routes_1.default);
+router.use('/cart', cart_routes_1.default);
+router.use('/users', user_routes_1.default);
+router.use('/categories', category_routes_1.default);
+router.use('/brands', brand_routes_1.default);
+router.use('/reviews', review_routes_1.default);
+router.use('/coupons', coupon_routes_1.default);
+router.use('/banners', banner_routes_1.default);
+router.use('/analytics', analytics_routes_1.default);
+router.use('/audit-logs', audit_routes_1.default);
+exports.default = router;
+//# sourceMappingURL=index.js.map

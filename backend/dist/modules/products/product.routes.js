@@ -1,0 +1,20 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const product_controller_1 = require("./product.controller");
+const auth_middleware_1 = require("../../middlewares/auth.middleware");
+const audit_middleware_1 = require("../../middlewares/audit.middleware");
+const router = (0, express_1.Router)();
+router.get('/', product_controller_1.productController.list.bind(product_controller_1.productController));
+router.get('/featured', product_controller_1.productController.getFeatured.bind(product_controller_1.productController));
+router.get('/bestsellers', product_controller_1.productController.getBestsellers.bind(product_controller_1.productController));
+router.get('/:id/related', product_controller_1.productController.getRelated.bind(product_controller_1.productController));
+router.get('/slug/:slug', product_controller_1.productController.getBySlug.bind(product_controller_1.productController));
+router.get('/:id', product_controller_1.productController.getById.bind(product_controller_1.productController));
+router.post('/', auth_middleware_1.authenticate, auth_middleware_1.isAdmin, (0, audit_middleware_1.auditLog)({ action: 'CREATE', resource: 'Product', getResourceId: req => req.body.sku }), product_controller_1.productController.create.bind(product_controller_1.productController));
+router.put('/:id', auth_middleware_1.authenticate, auth_middleware_1.isAdmin, (0, audit_middleware_1.auditLog)({ action: 'UPDATE', resource: 'Product', getResourceId: req => req.params.id }), product_controller_1.productController.update.bind(product_controller_1.productController));
+router.patch('/:id/approve', auth_middleware_1.authenticate, auth_middleware_1.isAdmin, (0, audit_middleware_1.auditLog)({ action: 'APPROVE', resource: 'Product', getResourceId: req => req.params.id }), product_controller_1.productController.approve.bind(product_controller_1.productController));
+router.delete('/:id', auth_middleware_1.authenticate, auth_middleware_1.isAdmin, (0, audit_middleware_1.auditLog)({ action: 'DELETE', resource: 'Product', getResourceId: req => req.params.id }), product_controller_1.productController.delete.bind(product_controller_1.productController));
+router.patch('/inventory/:variantId', auth_middleware_1.authenticate, auth_middleware_1.isAdmin, (0, audit_middleware_1.auditLog)({ action: 'UPDATE', resource: 'Inventory', getResourceId: req => req.params.variantId }), product_controller_1.productController.updateInventory.bind(product_controller_1.productController));
+exports.default = router;
+//# sourceMappingURL=product.routes.js.map
