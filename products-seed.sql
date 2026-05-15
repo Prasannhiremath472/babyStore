@@ -2,12 +2,22 @@
 -- Generated: 2026-05-15T14:58:06.340Z
 SET FOREIGN_KEY_CHECKS = 0;
 
+-- ============================================================
+-- CLEANUP: remove previous MB- products to avoid duplicates
+-- ============================================================
+DELETE FROM `product_images`    WHERE productId IN (SELECT id FROM (SELECT id FROM `products` WHERE sku LIKE 'MB-%') t);
+DELETE FROM `inventory`         WHERE variantId IN (SELECT id FROM (SELECT id FROM `product_variants` WHERE sku LIKE 'MB-%-1' OR sku LIKE 'MB-%-2') t);
+DELETE FROM `product_variants`  WHERE sku LIKE 'MB-%';
+DELETE FROM `product_categories` WHERE productId IN (SELECT id FROM (SELECT id FROM `products` WHERE sku LIKE 'MB-%') t);
+DELETE FROM `products`          WHERE sku LIKE 'MB-%';
+
+
 INSERT IGNORE INTO `brands` (`id`,`name`,`slug`,`description`,`isFeatured`,`isActive`,`createdAt`,`updatedAt`) VALUES
 ('br-14','LuvLap','luvlap','LuvLap baby products',0,1,NOW(),NOW()),
 ('br-18','Dabur Baby','dabur-baby','Dabur baby care',0,1,NOW(),NOW()),
 ('br-21','Nestle Baby','nestle-baby','Nestlé nutrition',1,1,NOW(),NOW());
 
-INSERT INTO `products` (`id`,`name`,`slug`,`description`,`sku`,`brandId`,`status`,`isFeatured`,`isBestseller`,`isNew`,`tags`,`createdAt`,`updatedAt`) VALUES
+INSERT IGNORE INTO `products` (`id`,`name`,`slug`,`description`,`sku`,`brandId`,`status`,`isFeatured`,`isBestseller`,`isNew`,`tags`,`createdAt`,`updatedAt`) VALUES
 ('6bb45b45-290d-4bd9-875f-cb79029428cd','CRADEL 1','cradel-1','CRADEL 1','MB-3001','br-01','ACTIVE',0,0,0,'[]',NOW(),NOW()),
 ('50709da7-a15d-4e76-91fe-b1e5d73eaaa4','CRADEL 2','cradel-2','CRADEL 2','MB-3002','br-01','ACTIVE',0,0,0,'[]',NOW(),NOW()),
 ('df8f6763-bbf0-4633-82bb-abc7d39415d5','CRADEL 3','cradel-3','CRADEL 3','MB-3003','br-01','ACTIVE',0,0,0,'[]',NOW(),NOW()),
@@ -209,7 +219,7 @@ INSERT INTO `products` (`id`,`name`,`slug`,`description`,`sku`,`brandId`,`status
 ('fcb573ab-0a10-4fd7-8f23-3a6144980afa','AVT FEEDER 260ML 495/- 1N','avt-feeder-260ml-495-1n','AVT FEEDER 260ML 495/- 1N','MB-3199','br-01','ACTIVE',0,0,0,'[]',NOW(),NOW()),
 ('f5f505de-6313-410c-a63f-d10305d3165c','AVT GROW FEDDING BOTTLE 1M+ 250ML','avt-grow-fedding-bottle-1m-250ml','AVT GROW FEDDING BOTTLE 1M+ 250ML','MB-3200','br-01','ACTIVE',0,0,0,'[]',NOW(),NOW());
 
-INSERT INTO `products` (`id`,`name`,`slug`,`description`,`sku`,`brandId`,`status`,`isFeatured`,`isBestseller`,`isNew`,`tags`,`createdAt`,`updatedAt`) VALUES
+INSERT IGNORE INTO `products` (`id`,`name`,`slug`,`description`,`sku`,`brandId`,`status`,`isFeatured`,`isBestseller`,`isNew`,`tags`,`createdAt`,`updatedAt`) VALUES
 ('c674ed65-3ea4-490b-8145-64902db6b04f','AVT GROW FEDDING BOTTLE 6M+ 330ML','avt-grow-fedding-bottle-6m-330ml','AVT GROW FEDDING BOTTLE 6M+ 330ML','MB-3201','br-01','ACTIVE',0,0,0,'[]',NOW(),NOW()),
 ('36b7ea58-9f70-42e1-8c26-af6231402017','AVT GROW TEAT 0M+ 2N','avt-grow-teat-0m-2n','AVT GROW TEAT 0M+ 2N','MB-3202','br-01','ACTIVE',0,0,0,'[]',NOW(),NOW()),
 ('21240e25-22f2-49d9-a40b-a099b57b8342','AVT GROW TEAT 1M+ 2N','avt-grow-teat-1m-2n','AVT GROW TEAT 1M+ 2N','MB-3203','br-01','ACTIVE',0,0,0,'[]',NOW(),NOW()),
@@ -411,7 +421,7 @@ INSERT INTO `products` (`id`,`name`,`slug`,`description`,`sku`,`brandId`,`status
 ('84705c3e-b04b-4bd9-9f4a-ac701258dfcc','BOTTIES 50/- 1PCS','botties-50-1pcs','BOTTIES 50/- 1PCS','MB-3399','br-01','ACTIVE',0,0,0,'[]',NOW(),NOW()),
 ('11bf115d-4c2b-4726-b0a4-0829407202e9','BOTTLE BRUSH 185/- 1PCS','bottle-brush-185-1pcs','BOTTLE BRUSH 185/- 1PCS','MB-3400','br-01','ACTIVE',0,0,0,'[]',NOW(),NOW());
 
-INSERT INTO `products` (`id`,`name`,`slug`,`description`,`sku`,`brandId`,`status`,`isFeatured`,`isBestseller`,`isNew`,`tags`,`createdAt`,`updatedAt`) VALUES
+INSERT IGNORE INTO `products` (`id`,`name`,`slug`,`description`,`sku`,`brandId`,`status`,`isFeatured`,`isBestseller`,`isNew`,`tags`,`createdAt`,`updatedAt`) VALUES
 ('7fdc2d14-4502-4edf-aa2f-f127d7e47b06','BOTTLE BRUSH BJ-8215 1PCS','bottle-brush-bj-8215-1pcs','BOTTLE BRUSH BJ-8215 1PCS','MB-3401','br-01','ACTIVE',0,0,0,'[]',NOW(),NOW()),
 ('78047c0f-c60e-4040-acc9-ce9c5203819b','BOTTLE BRUSH NT-10-274 1PCS','bottle-brush-nt-10-274-1pcs','BOTTLE BRUSH NT-10-274 1PCS','MB-3402','br-01','ACTIVE',0,0,0,'[]',NOW(),NOW()),
 ('987e97c1-2d98-4a75-8598-3c56a28034d2','BOTTLE COVER BIG 1PCS','bottle-cover-big-1pcs','BOTTLE COVER BIG 1PCS','MB-3403','br-01','ACTIVE',0,0,0,'[]',NOW(),NOW()),
@@ -613,7 +623,7 @@ INSERT INTO `products` (`id`,`name`,`slug`,`description`,`sku`,`brandId`,`status
 ('4c8c5002-b8dc-4664-874b-bf6c108bbbbe','LUV LAP WOODEN COT C-80 18999/ 1PCS','luv-lap-wooden-cot-c-80-18999-1pcs-2','LUV LAP WOODEN COT C-80 18999/ 1PCS','MB-3599','br-01','ACTIVE',0,0,0,'[]',NOW(),NOW()),
 ('a544b5e1-c4af-47a8-b664-2bc430a1c97f','LUVLAP BABY PASTE BUBBLE FRUIT 100GM','luvlap-baby-paste-bubble-fruit-100gm','LUVLAP BABY PASTE BUBBLE FRUIT 100GM','MB-3600','br-01','ACTIVE',0,0,0,'[]',NOW(),NOW());
 
-INSERT INTO `products` (`id`,`name`,`slug`,`description`,`sku`,`brandId`,`status`,`isFeatured`,`isBestseller`,`isNew`,`tags`,`createdAt`,`updatedAt`) VALUES
+INSERT IGNORE INTO `products` (`id`,`name`,`slug`,`description`,`sku`,`brandId`,`status`,`isFeatured`,`isBestseller`,`isNew`,`tags`,`createdAt`,`updatedAt`) VALUES
 ('765578d8-9c0c-4ac6-a45f-64c60f11fa5b','LUVLAP BABY PASTE BUBBLE FRUIT 50GM','luvlap-baby-paste-bubble-fruit-50gm','LUVLAP BABY PASTE BUBBLE FRUIT 50GM','MB-3601','br-01','ACTIVE',0,0,0,'[]',NOW(),NOW()),
 ('6cf00c3a-18e1-4fef-8795-780a67c5fbdf','LUVLAP BREAST PUMP ELECT ADORA 1PC','luvlap-breast-pump-elect-adora-1pc','LUVLAP BREAST PUMP ELECT ADORA 1PC','MB-3602','br-01','ACTIVE',0,0,0,'[]',NOW(),NOW()),
 ('4b76a2c8-3bc0-4580-859e-14f4c306e50b','LUVLAP FEEDER FLOWR PRINT18903 125ML','luvlap-feeder-flowr-print18903-125ml','LUVLAP FEEDER FLOWR PRINT18903 125ML','MB-3603','br-01','ACTIVE',0,0,0,'[]',NOW(),NOW()),
@@ -815,7 +825,7 @@ INSERT INTO `products` (`id`,`name`,`slug`,`description`,`sku`,`brandId`,`status
 ('7e058555-4834-44f9-9455-633257823c84','NET GADI COTTON SMALL 1PCS','net-gadi-cotton-small-1pcs','NET GADI COTTON SMALL 1PCS','MB-3799','br-01','ACTIVE',0,0,0,'[]',NOW(),NOW()),
 ('eca4fc3f-57e3-4740-a907-d80173fdb283','NET GADI PRINTED MEDIUM 1PCS','net-gadi-printed-medium-1pcs','NET GADI PRINTED MEDIUM 1PCS','MB-3800','br-01','ACTIVE',0,0,0,'[]',NOW(),NOW());
 
-INSERT INTO `products` (`id`,`name`,`slug`,`description`,`sku`,`brandId`,`status`,`isFeatured`,`isBestseller`,`isNew`,`tags`,`createdAt`,`updatedAt`) VALUES
+INSERT IGNORE INTO `products` (`id`,`name`,`slug`,`description`,`sku`,`brandId`,`status`,`isFeatured`,`isBestseller`,`isNew`,`tags`,`createdAt`,`updatedAt`) VALUES
 ('f85d7bd9-35b8-4fd4-9373-f0951923816a','NET GADI VELVET MEDIUM 1PCS','net-gadi-velvet-medium-1pcs','NET GADI VELVET MEDIUM 1PCS','MB-3801','br-01','ACTIVE',0,0,0,'[]',NOW(),NOW()),
 ('8a1aa9c8-f5d6-40e2-ac5b-b4ea25584a8e','NET GADI VELVET 1380/- 1PCS','net-gadi-velvet-1380-1pcs','NET GADI VELVET 1380/- 1PCS','MB-3802','br-01','ACTIVE',0,0,0,'[]',NOW(),NOW()),
 ('61682fc2-8908-4315-a522-316b8f7df020','NET GADI VELVET BIG 1570/- 1PCS','net-gadi-velvet-big-1570-1pcs','NET GADI VELVET BIG 1570/- 1PCS','MB-3803','br-01','ACTIVE',0,0,0,'[]',NOW(),NOW()),
@@ -1017,7 +1027,7 @@ INSERT INTO `products` (`id`,`name`,`slug`,`description`,`sku`,`brandId`,`status
 ('05afb132-a8e9-4e36-90f1-50a8084c109c','ST-1320BL MANICURE SET 1N','st-1320bl-manicure-set-1n','ST-1320BL MANICURE SET 1N','MB-3999','br-01','ACTIVE',0,0,0,'[]',NOW(),NOW()),
 ('f0a1e2a4-1d24-48b7-ac68-c68fcec1492b','ST-1320PK MANICURE SET 1N','st-1320pk-manicure-set-1n','ST-1320PK MANICURE SET 1N','MB-4000','br-01','ACTIVE',0,0,0,'[]',NOW(),NOW());
 
-INSERT INTO `products` (`id`,`name`,`slug`,`description`,`sku`,`brandId`,`status`,`isFeatured`,`isBestseller`,`isNew`,`tags`,`createdAt`,`updatedAt`) VALUES
+INSERT IGNORE INTO `products` (`id`,`name`,`slug`,`description`,`sku`,`brandId`,`status`,`isFeatured`,`isBestseller`,`isNew`,`tags`,`createdAt`,`updatedAt`) VALUES
 ('9fcd379b-f654-4edb-80d3-8a8bb01e37cd','ST-1331BL BABY NAIL CLIPPER 1U','st-1331bl-baby-nail-clipper-1u','ST-1331BL BABY NAIL CLIPPER 1U','MB-4001','br-01','ACTIVE',0,0,0,'[]',NOW(),NOW()),
 ('7e36bf67-fb1a-4cf0-8f68-c60bd3efaa07','ST-1332GR NAIL CLIP MAGNIFIER 1U','st-1332gr-nail-clip-magnifier-1u','ST-1332GR NAIL CLIP MAGNIFIER 1U','MB-4002','br-01','ACTIVE',0,0,0,'[]',NOW(),NOW()),
 ('0cd0bfd0-144a-429c-a572-82c708146556','ST-1333BL NAIL CLIPPER 1N','st-1333bl-nail-clipper-1n','ST-1333BL NAIL CLIPPER 1N','MB-4003','br-01','ACTIVE',0,0,0,'[]',NOW(),NOW()),
@@ -2185,7 +2195,7 @@ INSERT IGNORE INTO `product_categories` (`productId`,`categoryId`,`isPrimary`) V
 ('10b4ccb6-5ff2-4232-95a6-99bb9b36da35','cat-01',1),
 ('78d19b95-76b6-4674-8529-d80b54e2b8ad','cat-01',1);
 
-INSERT INTO `product_variants` (`id`,`productId`,`name`,`sku`,`price`,`comparePrice`,`isDefault`,`isActive`,`attributes`,`createdAt`,`updatedAt`) VALUES
+INSERT IGNORE INTO `product_variants` (`id`,`productId`,`name`,`sku`,`price`,`comparePrice`,`isDefault`,`isActive`,`attributes`,`createdAt`,`updatedAt`) VALUES
 ('e90cd64d-7a7d-48fa-9626-a07ddb56a1b3','6bb45b45-290d-4bd9-875f-cb79029428cd','Default','MB-3001-1',3799,NULL,1,1,'{}',NOW(),NOW()),
 ('60c242c9-f150-4142-ac7e-5487893304cc','50709da7-a15d-4e76-91fe-b1e5d73eaaa4','Default','MB-3002-1',3799,NULL,1,1,'{}',NOW(),NOW()),
 ('ae6cfa0e-7b7d-4410-b5bd-7be502f5e8bc','df8f6763-bbf0-4633-82bb-abc7d39415d5','Default','MB-3003-1',3799,NULL,1,1,'{}',NOW(),NOW()),
@@ -2387,7 +2397,7 @@ INSERT INTO `product_variants` (`id`,`productId`,`name`,`sku`,`price`,`comparePr
 ('e9888dbb-b911-4a59-9963-490b0c040ac1','fcb573ab-0a10-4fd7-8f23-3a6144980afa','Default','MB-3199-1',99,NULL,1,1,'{}',NOW(),NOW()),
 ('ae2c720a-81dc-4bb6-90fe-f65d0ad9fefa','f5f505de-6313-410c-a63f-d10305d3165c','Default','MB-3200-1',99,NULL,1,1,'{}',NOW(),NOW());
 
-INSERT INTO `product_variants` (`id`,`productId`,`name`,`sku`,`price`,`comparePrice`,`isDefault`,`isActive`,`attributes`,`createdAt`,`updatedAt`) VALUES
+INSERT IGNORE INTO `product_variants` (`id`,`productId`,`name`,`sku`,`price`,`comparePrice`,`isDefault`,`isActive`,`attributes`,`createdAt`,`updatedAt`) VALUES
 ('356a7581-da04-4691-b6a3-d08de989767a','c674ed65-3ea4-490b-8145-64902db6b04f','Default','MB-3201-1',99,NULL,1,1,'{}',NOW(),NOW()),
 ('0bd1dcd1-b1ee-4aed-b496-9f3bfd74d534','36b7ea58-9f70-42e1-8c26-af6231402017','Default','MB-3202-1',99,NULL,1,1,'{}',NOW(),NOW()),
 ('b33494e3-30ba-4298-801e-630c3f3706ec','21240e25-22f2-49d9-a40b-a099b57b8342','Default','MB-3203-1',99,NULL,1,1,'{}',NOW(),NOW()),
@@ -2589,7 +2599,7 @@ INSERT INTO `product_variants` (`id`,`productId`,`name`,`sku`,`price`,`comparePr
 ('e102e1ae-80fc-4c91-8d51-129863b1bc0d','84705c3e-b04b-4bd9-9f4a-ac701258dfcc','Default','MB-3399-1',99,NULL,1,1,'{}',NOW(),NOW()),
 ('8297faf7-2107-4f15-91b2-73f85e91c85a','11bf115d-4c2b-4726-b0a4-0829407202e9','Default','MB-3400-1',99,NULL,1,1,'{}',NOW(),NOW());
 
-INSERT INTO `product_variants` (`id`,`productId`,`name`,`sku`,`price`,`comparePrice`,`isDefault`,`isActive`,`attributes`,`createdAt`,`updatedAt`) VALUES
+INSERT IGNORE INTO `product_variants` (`id`,`productId`,`name`,`sku`,`price`,`comparePrice`,`isDefault`,`isActive`,`attributes`,`createdAt`,`updatedAt`) VALUES
 ('2751d899-55e7-4331-9414-ac3f8f482ef3','7fdc2d14-4502-4edf-aa2f-f127d7e47b06','Default','MB-3401-1',99,NULL,1,1,'{}',NOW(),NOW()),
 ('5be0f1b2-0a4e-4c57-8e75-5475c84e61e9','78047c0f-c60e-4040-acc9-ce9c5203819b','Default','MB-3402-1',99,NULL,1,1,'{}',NOW(),NOW()),
 ('c916d099-1675-4480-9421-29372178c158','987e97c1-2d98-4a75-8598-3c56a28034d2','Default','MB-3403-1',99,NULL,1,1,'{}',NOW(),NOW()),
@@ -2791,7 +2801,7 @@ INSERT INTO `product_variants` (`id`,`productId`,`name`,`sku`,`price`,`comparePr
 ('aca4e4d7-45d0-4ae0-8b6b-1c91fb58225b','4c8c5002-b8dc-4664-874b-bf6c108bbbbe','Default','MB-3599-1',99,NULL,1,1,'{}',NOW(),NOW()),
 ('3b792d3a-6e05-45f2-9685-028d9eea01cb','a544b5e1-c4af-47a8-b664-2bc430a1c97f','Default','MB-3600-1',99,NULL,1,1,'{}',NOW(),NOW());
 
-INSERT INTO `product_variants` (`id`,`productId`,`name`,`sku`,`price`,`comparePrice`,`isDefault`,`isActive`,`attributes`,`createdAt`,`updatedAt`) VALUES
+INSERT IGNORE INTO `product_variants` (`id`,`productId`,`name`,`sku`,`price`,`comparePrice`,`isDefault`,`isActive`,`attributes`,`createdAt`,`updatedAt`) VALUES
 ('d26ec64f-0b1e-4476-8b20-fc3838974ecf','765578d8-9c0c-4ac6-a45f-64c60f11fa5b','Default','MB-3601-1',99,NULL,1,1,'{}',NOW(),NOW()),
 ('491f3b37-fb07-4c1a-974a-e9f70297c018','6cf00c3a-18e1-4fef-8795-780a67c5fbdf','Default','MB-3602-1',99,NULL,1,1,'{}',NOW(),NOW()),
 ('2b968703-8e99-445b-92bc-5160ee1ab000','4b76a2c8-3bc0-4580-859e-14f4c306e50b','Default','MB-3603-1',99,NULL,1,1,'{}',NOW(),NOW()),
@@ -2993,7 +3003,7 @@ INSERT INTO `product_variants` (`id`,`productId`,`name`,`sku`,`price`,`comparePr
 ('dcdf0541-8140-48f0-8ac0-69b84995b525','7e058555-4834-44f9-9455-633257823c84','Default','MB-3799-1',99,NULL,1,1,'{}',NOW(),NOW()),
 ('e75b07b7-9ce1-4327-94e7-79900223dc75','eca4fc3f-57e3-4740-a907-d80173fdb283','Default','MB-3800-1',99,NULL,1,1,'{}',NOW(),NOW());
 
-INSERT INTO `product_variants` (`id`,`productId`,`name`,`sku`,`price`,`comparePrice`,`isDefault`,`isActive`,`attributes`,`createdAt`,`updatedAt`) VALUES
+INSERT IGNORE INTO `product_variants` (`id`,`productId`,`name`,`sku`,`price`,`comparePrice`,`isDefault`,`isActive`,`attributes`,`createdAt`,`updatedAt`) VALUES
 ('6be51e03-0f2f-4140-956d-6ff45ce3442b','f85d7bd9-35b8-4fd4-9373-f0951923816a','Default','MB-3801-1',99,NULL,1,1,'{}',NOW(),NOW()),
 ('0d1ee98c-59af-496a-968e-659629663440','8a1aa9c8-f5d6-40e2-ac5b-b4ea25584a8e','Default','MB-3802-1',99,NULL,1,1,'{}',NOW(),NOW()),
 ('8e6ba3ba-af8b-4832-83c0-e56ed8ed25f2','61682fc2-8908-4315-a522-316b8f7df020','Default','MB-3803-1',99,NULL,1,1,'{}',NOW(),NOW()),
@@ -3195,7 +3205,7 @@ INSERT INTO `product_variants` (`id`,`productId`,`name`,`sku`,`price`,`comparePr
 ('0f56fb07-649d-4270-bb25-a85bed44c727','05afb132-a8e9-4e36-90f1-50a8084c109c','Default','MB-3999-1',99,NULL,1,1,'{}',NOW(),NOW()),
 ('559ea2a3-6599-4fdb-baed-7afd16e2a907','f0a1e2a4-1d24-48b7-ac68-c68fcec1492b','Default','MB-4000-1',99,NULL,1,1,'{}',NOW(),NOW());
 
-INSERT INTO `product_variants` (`id`,`productId`,`name`,`sku`,`price`,`comparePrice`,`isDefault`,`isActive`,`attributes`,`createdAt`,`updatedAt`) VALUES
+INSERT IGNORE INTO `product_variants` (`id`,`productId`,`name`,`sku`,`price`,`comparePrice`,`isDefault`,`isActive`,`attributes`,`createdAt`,`updatedAt`) VALUES
 ('da2277f3-301b-4947-8c7f-7249df32bbaa','9fcd379b-f654-4edb-80d3-8a8bb01e37cd','Default','MB-4001-1',99,NULL,1,1,'{}',NOW(),NOW()),
 ('efe4d52f-2ac0-4725-832a-2f09002f01f0','7e36bf67-fb1a-4cf0-8f68-c60bd3efaa07','Default','MB-4002-1',99,NULL,1,1,'{}',NOW(),NOW()),
 ('caf32a63-ea27-4d05-8b36-2acad258e9c1','0cd0bfd0-144a-429c-a572-82c708146556','Default','MB-4003-1',99,NULL,1,1,'{}',NOW(),NOW()),
@@ -3274,7 +3284,7 @@ INSERT INTO `product_variants` (`id`,`productId`,`name`,`sku`,`price`,`comparePr
 ('5b388432-a841-4c8e-92ba-550d58a0dc03','10b4ccb6-5ff2-4232-95a6-99bb9b36da35','Default','MB-4076-1',99,NULL,1,1,'{}',NOW(),NOW()),
 ('a61b1765-ab8c-4586-a6a1-06546e4f8fe6','78d19b95-76b6-4674-8529-d80b54e2b8ad','Default','MB-4077-1',99,NULL,1,1,'{}',NOW(),NOW());
 
-INSERT INTO `inventory` (`id`,`variantId`,`quantity`,`reservedQuantity`,`lowStockAlert`,`updatedAt`) VALUES
+INSERT IGNORE INTO `inventory` (`id`,`variantId`,`quantity`,`reservedQuantity`,`lowStockAlert`,`updatedAt`) VALUES
 ('0851f747-5351-4445-b978-dcec03fe7a1a','e90cd64d-7a7d-48fa-9626-a07ddb56a1b3',10,0,5,NOW()),
 ('b4588596-7219-4419-adac-0deb2a8b679e','60c242c9-f150-4142-ac7e-5487893304cc',10,0,5,NOW()),
 ('40a61ce4-b8b3-4bbe-a761-21d6b57bb759','ae6cfa0e-7b7d-4410-b5bd-7be502f5e8bc',10,0,5,NOW()),
@@ -3476,7 +3486,7 @@ INSERT INTO `inventory` (`id`,`variantId`,`quantity`,`reservedQuantity`,`lowStoc
 ('2498f24e-c5ef-4398-b9e6-60ac80bf676f','e9888dbb-b911-4a59-9963-490b0c040ac1',10,0,5,NOW()),
 ('f2390a0a-c668-473a-bbec-acf6e3694049','ae2c720a-81dc-4bb6-90fe-f65d0ad9fefa',10,0,5,NOW());
 
-INSERT INTO `inventory` (`id`,`variantId`,`quantity`,`reservedQuantity`,`lowStockAlert`,`updatedAt`) VALUES
+INSERT IGNORE INTO `inventory` (`id`,`variantId`,`quantity`,`reservedQuantity`,`lowStockAlert`,`updatedAt`) VALUES
 ('07408422-5791-4cf5-a80c-5ee9f5b03535','356a7581-da04-4691-b6a3-d08de989767a',10,0,5,NOW()),
 ('efae31c6-a934-4202-8f0c-4e19973567ec','0bd1dcd1-b1ee-4aed-b496-9f3bfd74d534',10,0,5,NOW()),
 ('526ae739-83af-4343-82e7-c2055f67becd','b33494e3-30ba-4298-801e-630c3f3706ec',10,0,5,NOW()),
@@ -3678,7 +3688,7 @@ INSERT INTO `inventory` (`id`,`variantId`,`quantity`,`reservedQuantity`,`lowStoc
 ('be350851-1a53-4683-afae-60f6aa9c6647','e102e1ae-80fc-4c91-8d51-129863b1bc0d',10,0,5,NOW()),
 ('f4d37c53-4134-478a-9100-094f4343b988','8297faf7-2107-4f15-91b2-73f85e91c85a',10,0,5,NOW());
 
-INSERT INTO `inventory` (`id`,`variantId`,`quantity`,`reservedQuantity`,`lowStockAlert`,`updatedAt`) VALUES
+INSERT IGNORE INTO `inventory` (`id`,`variantId`,`quantity`,`reservedQuantity`,`lowStockAlert`,`updatedAt`) VALUES
 ('ecbee5f0-284d-49ae-b6c7-56d1ac7fa527','2751d899-55e7-4331-9414-ac3f8f482ef3',10,0,5,NOW()),
 ('bff442e6-70bc-4060-85e0-6165638f88bd','5be0f1b2-0a4e-4c57-8e75-5475c84e61e9',10,0,5,NOW()),
 ('0f8d427c-9805-48f6-bec1-a0098af8c2df','c916d099-1675-4480-9421-29372178c158',10,0,5,NOW()),
@@ -3880,7 +3890,7 @@ INSERT INTO `inventory` (`id`,`variantId`,`quantity`,`reservedQuantity`,`lowStoc
 ('85b7657c-74fe-4e38-bea8-d5aa08bb1fed','aca4e4d7-45d0-4ae0-8b6b-1c91fb58225b',10,0,5,NOW()),
 ('c7e2c145-0e3e-4e5b-973e-a05a8825ca92','3b792d3a-6e05-45f2-9685-028d9eea01cb',10,0,5,NOW());
 
-INSERT INTO `inventory` (`id`,`variantId`,`quantity`,`reservedQuantity`,`lowStockAlert`,`updatedAt`) VALUES
+INSERT IGNORE INTO `inventory` (`id`,`variantId`,`quantity`,`reservedQuantity`,`lowStockAlert`,`updatedAt`) VALUES
 ('b1484b9b-9fba-4a79-8c06-18a318ced4d1','d26ec64f-0b1e-4476-8b20-fc3838974ecf',10,0,5,NOW()),
 ('02c14931-ac13-4181-ba93-7993e2d7f409','491f3b37-fb07-4c1a-974a-e9f70297c018',10,0,5,NOW()),
 ('255ecd52-bfc9-4019-b88d-5771ae3e071c','2b968703-8e99-445b-92bc-5160ee1ab000',10,0,5,NOW()),
@@ -4082,7 +4092,7 @@ INSERT INTO `inventory` (`id`,`variantId`,`quantity`,`reservedQuantity`,`lowStoc
 ('5a62b620-0f42-4567-afce-ad42bebba988','dcdf0541-8140-48f0-8ac0-69b84995b525',10,0,5,NOW()),
 ('621c4204-73a3-4568-80ce-4f588eca0bcc','e75b07b7-9ce1-4327-94e7-79900223dc75',10,0,5,NOW());
 
-INSERT INTO `inventory` (`id`,`variantId`,`quantity`,`reservedQuantity`,`lowStockAlert`,`updatedAt`) VALUES
+INSERT IGNORE INTO `inventory` (`id`,`variantId`,`quantity`,`reservedQuantity`,`lowStockAlert`,`updatedAt`) VALUES
 ('c5e0fafd-e3e9-415d-8457-96d10b92fcf0','6be51e03-0f2f-4140-956d-6ff45ce3442b',10,0,5,NOW()),
 ('619a4276-1643-4446-b049-b4e784250308','0d1ee98c-59af-496a-968e-659629663440',10,0,5,NOW()),
 ('7f1ee47f-a22a-4ddf-936b-7505bdf15fc1','8e6ba3ba-af8b-4832-83c0-e56ed8ed25f2',10,0,5,NOW()),
@@ -4284,7 +4294,7 @@ INSERT INTO `inventory` (`id`,`variantId`,`quantity`,`reservedQuantity`,`lowStoc
 ('e50b6e03-af9d-4cb1-830a-a09312fb9110','0f56fb07-649d-4270-bb25-a85bed44c727',10,0,5,NOW()),
 ('81395a39-0f9e-4925-9eaf-3bb66364c778','559ea2a3-6599-4fdb-baed-7afd16e2a907',10,0,5,NOW());
 
-INSERT INTO `inventory` (`id`,`variantId`,`quantity`,`reservedQuantity`,`lowStockAlert`,`updatedAt`) VALUES
+INSERT IGNORE INTO `inventory` (`id`,`variantId`,`quantity`,`reservedQuantity`,`lowStockAlert`,`updatedAt`) VALUES
 ('887bb91a-86c1-45d0-b27b-f89ec52ca002','da2277f3-301b-4947-8c7f-7249df32bbaa',10,0,5,NOW()),
 ('889efbc3-5220-4a30-a5f5-050f5cffb281','efe4d52f-2ac0-4725-832a-2f09002f01f0',10,0,5,NOW()),
 ('b39a48a9-95ba-4cbf-be42-09e3aea401c0','caf32a63-ea27-4d05-8b36-2acad258e9c1',10,0,5,NOW()),
@@ -4363,7 +4373,7 @@ INSERT INTO `inventory` (`id`,`variantId`,`quantity`,`reservedQuantity`,`lowStoc
 ('a5b49e6b-05fd-497f-9303-1b316d5bc9aa','5b388432-a841-4c8e-92ba-550d58a0dc03',10,0,5,NOW()),
 ('d542a1e3-0126-4322-931f-e405bee22343','a61b1765-ab8c-4586-a6a1-06546e4f8fe6',10,0,5,NOW());
 
-INSERT INTO `product_images` (`id`,`productId`,`url`,`altText`,`isPrimary`,`sortOrder`,`createdAt`) VALUES
+INSERT IGNORE INTO `product_images` (`id`,`productId`,`url`,`altText`,`isPrimary`,`sortOrder`,`createdAt`) VALUES
 ('0bab0aab-0a44-4479-8d40-dc29b7d854d4','6bb45b45-290d-4bd9-875f-cb79029428cd','/images/nursery/mb-3001-1.jpg','CRADEL 1',1,0,NOW()),
 ('9f0a36f9-8d0b-415c-a8d1-a7a450acd34a','6bb45b45-290d-4bd9-875f-cb79029428cd','/images/nursery/mb-3001-2.jpg','CRADEL 1',0,1,NOW()),
 ('9702f724-cc73-4791-af45-90dc950f69b3','6bb45b45-290d-4bd9-875f-cb79029428cd','/images/nursery/mb-3001-3.jpg','CRADEL 1',0,2,NOW()),
@@ -4565,7 +4575,7 @@ INSERT INTO `product_images` (`id`,`productId`,`url`,`altText`,`isPrimary`,`sort
 ('0ad69eb7-bd4c-45a8-b276-5016ab79f17a','148821fb-5cc4-4134-aad4-38ebe31df2b2','/images/bath-skin-care/mb-3105-1.webp','JOHNSONS BABY POWDER 50GM',1,0,NOW()),
 ('72052b12-bfd4-44d3-984a-b1095c658891','148821fb-5cc4-4134-aad4-38ebe31df2b2','/images/bath-skin-care/mb-3105-2.webp','JOHNSONS BABY POWDER 50GM',0,1,NOW());
 
-INSERT INTO `product_images` (`id`,`productId`,`url`,`altText`,`isPrimary`,`sortOrder`,`createdAt`) VALUES
+INSERT IGNORE INTO `product_images` (`id`,`productId`,`url`,`altText`,`isPrimary`,`sortOrder`,`createdAt`) VALUES
 ('57d718b9-6563-4a4f-8fe3-9dd05bf7c234','d73d24ce-4590-4b1f-8ef1-d81bfaff03d3','/images/bath-skin-care/mb-3106-1.jpg','JOHNSONS BABY POWDER 100GM',1,0,NOW()),
 ('b47dde8c-74a1-485a-aefc-9a3d93c6d5f8','d73d24ce-4590-4b1f-8ef1-d81bfaff03d3','/images/bath-skin-care/mb-3106-2.webp','JOHNSONS BABY POWDER 100GM',0,1,NOW()),
 ('ff4aac17-74b3-4c09-a9f3-e20d32258435','fc0171ed-de82-428b-97f5-bca8e2afb5d6','/images/bath-skin-care/mb-3107-1.jpg','JOHNSONS BABY POWDER 200GM',1,0,NOW()),
