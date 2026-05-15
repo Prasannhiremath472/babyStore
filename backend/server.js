@@ -50,6 +50,7 @@ app.get('/health', (req, res) => {
 
 // ── Routes ────────────────────────────────────────────────────────────────────
 app.use('/api/v1/auth',        require('./routes/auth'));
+app.use('/api/v1/upload',      require('./routes/upload'));
 app.use('/api/v1/products',    require('./routes/products'));
 app.use('/api/v1/categories',  require('./routes/categories'));
 app.use('/api/v1/brands',      require('./routes/brands'));
