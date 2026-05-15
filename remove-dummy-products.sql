@@ -1,36 +1,62 @@
 -- ============================================================
 -- REMOVE DUMMY/OLD SEED PRODUCTS
--- These were auto-generated demo products, NOT your real stock
--- SKUs: LN-2001 to LN-2020, p-001 to p-020
 -- Run this in phpMyAdmin BEFORE running products-seed.sql
 -- ============================================================
 
 SET FOREIGN_KEY_CHECKS = 0;
 
--- Remove old LN- SKU products (fake demo products from initial setup)
+-- 1. Cart items referencing dummy variants
+DELETE FROM `cart_items`
+  WHERE variantId IN (
+    SELECT id FROM (SELECT id FROM `product_variants` WHERE sku LIKE 'LN-%' OR sku LIKE 'p-%') t
+  );
+
+-- 2. Order items referencing dummy products
+DELETE FROM `order_items`
+  WHERE productId IN (
+    SELECT id FROM (SELECT id FROM `products` WHERE sku LIKE 'LN-%' OR sku LIKE 'p-%') t
+  );
+
+-- 3. Product images
 DELETE FROM `product_images`
-  WHERE productId IN (SELECT id FROM (SELECT id FROM `products` WHERE sku LIKE 'LN-%' OR sku LIKE 'p-%') t);
+  WHERE productId IN (
+    SELECT id FROM (SELECT id FROM `products` WHERE sku LIKE 'LN-%' OR sku LIKE 'p-%') t
+  );
 
+-- 4. Inventory
 DELETE FROM `inventory`
-  WHERE variantId IN (SELECT id FROM (SELECT id FROM `product_variants` WHERE sku LIKE 'LN-%' OR sku LIKE 'p-%') t);
+  WHERE variantId IN (
+    SELECT id FROM (SELECT id FROM `product_variants` WHERE sku LIKE 'LN-%' OR sku LIKE 'p-%') t
+  );
 
+-- 5. Variants
 DELETE FROM `product_variants`
   WHERE sku LIKE 'LN-%' OR sku LIKE 'p-%';
 
+-- 6. Product categories
 DELETE FROM `product_categories`
-  WHERE productId IN (SELECT id FROM (SELECT id FROM `products` WHERE sku LIKE 'LN-%' OR sku LIKE 'p-%') t);
+  WHERE productId IN (
+    SELECT id FROM (SELECT id FROM `products` WHERE sku LIKE 'LN-%' OR sku LIKE 'p-%') t
+  );
 
+-- 7. Reviews
 DELETE FROM `reviews`
-  WHERE productId IN (SELECT id FROM (SELECT id FROM `products` WHERE sku LIKE 'LN-%' OR sku LIKE 'p-%') t);
+  WHERE productId IN (
+    SELECT id FROM (SELECT id FROM `products` WHERE sku LIKE 'LN-%' OR sku LIKE 'p-%') t
+  );
 
+-- 8. Wishlists
 DELETE FROM `wishlists`
-  WHERE productId IN (SELECT id FROM (SELECT id FROM `products` WHERE sku LIKE 'LN-%' OR sku LIKE 'p-%') t);
+  WHERE productId IN (
+    SELECT id FROM (SELECT id FROM `products` WHERE sku LIKE 'LN-%' OR sku LIKE 'p-%') t
+  );
 
+-- 9. Finally delete the products
 DELETE FROM `products`
   WHERE sku LIKE 'LN-%' OR sku LIKE 'p-%';
 
 SET FOREIGN_KEY_CHECKS = 1;
 
--- Verify removal
-SELECT COUNT(*) as remaining_dummy FROM `products` WHERE sku LIKE 'LN-%' OR sku LIKE 'p-%';
-SELECT COUNT(*) as your_real_products FROM `products` WHERE sku LIKE 'MB-%';
+-- Verify
+SELECT COUNT(*) AS remaining_dummy     FROM `products` WHERE sku LIKE 'LN-%' OR sku LIKE 'p-%';
+SELECT COUNT(*) AS your_real_products  FROM `products` WHERE sku LIKE 'MB-%';
