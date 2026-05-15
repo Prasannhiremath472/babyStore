@@ -1,14 +1,17 @@
-// Base URL for images
-const API_URL = typeof window !== 'undefined' && window.location.hostname.includes('mybabystore.net')
-  ? 'https://api.mybabystore.net'
-  : 'http://localhost:4000';
-
-// Convert a DB image URL to a full URL
+// Convert a DB image URL to a displayable URL
+// DB stores either:
+//   /images/products/filename.jpg  → served by frontend (mybabystore.net)
+//   https://...unsplash.com/...    → external URL (legacy/seed data)
 export const imgUrl = (url) => {
   if (!url) return '/images/placeholder.svg';
+  // Already a full external URL — use as-is
   if (url.startsWith('http')) return url;
-  if (url.startsWith('/')) return `${API_URL}${url}`;
-  return `${API_URL}/${url}`;
+  // Relative path starting with /images/ — served by frontend directly
+  if (url.startsWith('/images/')) return url;
+  // Relative path without leading slash
+  if (url.startsWith('images/')) return `/${url}`;
+  // Fallback
+  return '/images/placeholder.svg';
 };
 
 // Format price to Indian format
