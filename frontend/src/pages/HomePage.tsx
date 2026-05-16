@@ -4,19 +4,22 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 
-import HeroSection         from '../components/home/HeroSection';
-import WhyChooseUs         from '../components/home/WhyChooseUs';
-import ShopByCategory      from '../components/home/ShopByCategory';
-import ShopByAge           from '../components/home/ShopByAge';
-import FlashSaleSection    from '../components/home/FlashSaleSection';
-import FeaturedProducts    from '../components/home/FeaturedProducts';
-import PromoBanners        from '../components/home/PromoBanners';
-import BestsellerSection   from '../components/home/BestsellerSection';
-import FeaturedBrands      from '../components/home/FeaturedBrands';
-import TestimonialsSection from '../components/home/TestimonialsSection';
-import ProductCard         from '../components/products/ProductCard';
-import ProductCardSkeleton from '../components/products/ProductCardSkeleton';
-import { productsApi }     from '../services/api/products.api';
+import HeroSection              from '../components/home/HeroSection';
+import WhyChooseUs              from '../components/home/WhyChooseUs';
+import ShopByCategory           from '../components/home/ShopByCategory';
+import ShopByAge                from '../components/home/ShopByAge';
+import FlashSaleSection         from '../components/home/FlashSaleSection';
+import FeaturedProducts         from '../components/home/FeaturedProducts';
+import PromoBanners             from '../components/home/PromoBanners';
+import BestsellerSection        from '../components/home/BestsellerSection';
+import FeaturedBrands           from '../components/home/FeaturedBrands';
+import TestimonialsSection      from '../components/home/TestimonialsSection';
+import PremiumBoutiques         from '../components/home/PremiumBoutiques';
+import PriceFilterBanner        from '../components/home/PriceFilterBanner';
+import CategoryProductSection   from '../components/home/CategoryProductSection';
+import ProductCard              from '../components/products/ProductCard';
+import ProductCardSkeleton      from '../components/products/ProductCardSkeleton';
+import { productsApi }          from '../services/api/products.api';
 
 // Parenting blog posts
 const BLOG_POSTS = [
@@ -94,10 +97,16 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 6. PROMO BANNERS */}
+        {/* 6. PREMIUM BOUTIQUES — FirstCry style 2×3 image grid cards */}
+        <PremiumBoutiques />
+
+        {/* 7. PROMO BANNERS */}
         <PromoBanners />
 
-        {/* 7. SHOP BY AGE */}
+        {/* 8. PRICE FILTER BANNER + CLOTHING SUBCATEGORIES */}
+        <PriceFilterBanner />
+
+        {/* 9. SHOP BY AGE */}
         <ShopByAge />
 
         {/* 8. BESTSELLERS */}
@@ -155,7 +164,10 @@ export default function HomePage() {
           </section>
         )}
 
-        {/* 10. BRANDS MARQUEE */}
+        {/* 10. CATEGORY PRODUCT SECTIONS — FirstCry style image subcategory grids */}
+        <CategoryProductSection />
+
+        {/* 11. BRANDS MARQUEE */}
         <FeaturedBrands />
 
         {/* 11. PARENTING BLOG */}
