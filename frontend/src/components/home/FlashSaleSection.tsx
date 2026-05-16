@@ -1,34 +1,31 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Zap, ArrowRight } from 'lucide-react';
-import { SALE_IMAGES } from '../../constants/images';
+import { Zap, ArrowRight, Clock } from 'lucide-react';
 
 function CountdownTimer({ targetDate }: { targetDate: Date }) {
-  const [timeLeft, setTimeLeft] = useState({ h: 0, m: 0, s: 0 });
-
+  const [t, setT] = useState({ h: 0, m: 0, s: 0 });
   useEffect(() => {
     const update = () => {
       const diff = Math.max(0, targetDate.getTime() - Date.now());
-      setTimeLeft({ h: Math.floor(diff / 3600000), m: Math.floor((diff % 3600000) / 60000), s: Math.floor((diff % 60000) / 1000) });
+      setT({ h: Math.floor(diff / 3600000), m: Math.floor((diff % 3600000) / 60000), s: Math.floor((diff % 60000) / 1000) });
     };
     update();
-    const t = setInterval(update, 1000);
-    return () => clearInterval(t);
+    const id = setInterval(update, 1000);
+    return () => clearInterval(id);
   }, [targetDate]);
 
-  const labels = ['HRS', 'MIN', 'SEC'];
   return (
-    <div className="flex items-center gap-2">
-      {[timeLeft.h, timeLeft.m, timeLeft.s].map((val, i) => (
-        <div key={i} className="flex items-center gap-2">
+    <div className="flex items-center gap-1.5">
+      {[t.h, t.m, t.s].map((val, i) => (
+        <div key={i} className="flex items-center gap-1.5">
           <div className="flex flex-col items-center">
-            <div className="bg-secondary text-primary w-12 h-12 rounded-xl flex items-center justify-center font-black text-xl shadow-yellow-glow leading-none">
+            <div className="w-12 h-12 rounded-xl bg-white text-orange-600 font-black text-xl flex items-center justify-center shadow-orange border border-orange-100">
               {String(val).padStart(2, '0')}
             </div>
-            <span className="text-white/60 text-[9px] font-bold mt-1 uppercase tracking-wider">{labels[i]}</span>
+            <span className="text-[9px] font-bold text-white/70 mt-0.5 uppercase">{['HRS','MIN','SEC'][i]}</span>
           </div>
-          {i < 2 && <span className="text-secondary font-black text-xl mb-4">:</span>}
+          {i < 2 && <span className="text-white font-black text-xl mb-4">:</span>}
         </div>
       ))}
     </div>
@@ -36,73 +33,89 @@ function CountdownTimer({ targetDate }: { targetDate: Date }) {
 }
 
 const SALE_PRODUCTS = [
-  { name: 'Baby Carrier Ergonomic Wrap', originalPrice: 3499, salePrice: 1749, discount: 50, image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400&q=80', slug: 'baby-carrier-ergonomic-wrap', sold: 68 },
-  { name: 'Wooden Shape Sorter Cube',    originalPrice: 1299, salePrice:  649, discount: 50, image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80', slug: 'wooden-shape-sorter-cube',    sold: 82 },
-  { name: 'Baby Bath Tub w/ Gauge',      originalPrice: 1799, salePrice:  999, discount: 44, image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80', slug: 'baby-bath-tub',               sold: 55 },
-  { name: 'Kids School Backpack',        originalPrice: 1999, salePrice: 1099, discount: 45, image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&q=80', slug: 'kids-school-backpack',        sold: 74 },
+  { name: 'Baby Carrier Ergonomic', original: 3499, sale: 1749, off: 50, img: '/images/baby-gear/mb-3009-1.webp', slug: 'baby-carrier-ergonomic-wrap', sold: 68 },
+  { name: 'Wooden Shape Sorter',    original: 1299, sale:  649, off: 50, img: '/images/nursery/mb-3001-1.jpg',    slug: 'wooden-shape-sorter-cube',    sold: 82 },
+  { name: 'Baby Bath Tub Set',      original: 1799, sale:  999, off: 44, img: '/images/bath-skin-care/mb-3060-1.jpg',  slug: 'baby-bath-tub',          sold: 55 },
+  { name: 'Kids School Backpack',   original: 1999, sale: 1099, off: 45, img: '/images/baby-clothing/mb-3088-1.jpeg', slug: 'kids-school-backpack',  sold: 74 },
+  { name: 'Pampers Premium Pants',  original:  899, sale:  649, off: 28, img: '/images/diapers-wipes/dl-0695.jpeg',   slug: 'pampers-aloe-blue-l5-pants-1pcs', sold: 91 },
+  { name: 'Himalaya Baby Massage',  original:  399, sale:  249, off: 38, img: '/images/bath-skin-care/mb-3069-1.webp', slug: 'himalaya-baby-massage-oil-200ml', sold: 77 },
 ];
 
 export default function FlashSaleSection() {
-  const saleEnd = new Date(Date.now() + 6 * 3600000);
+  const saleEnd = new Date(Date.now() + 7 * 3600000 + 23 * 60000);
 
   return (
-    <section className="py-14 relative overflow-hidden bg-gradient-to-r from-primary-800 via-primary-700 to-primary-600">
-      {/* Gold shimmer */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(255,215,0,0.22),transparent_55%)] pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,215,0,0.10),transparent_50%)] pointer-events-none" />
+    <section className="py-14 bg-gradient-to-r from-orange-500 via-red-500 to-pink-600 relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 50%, white 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+      <div className="absolute top-0 right-0 w-64 h-64 bg-yellow-400/20 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 left-0 w-48 h-48 bg-pink-400/20 rounded-full blur-3xl" />
 
       <div className="section-container relative">
-        {/* Header row */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5 mb-10">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-secondary flex items-center justify-center shadow-yellow-glow">
-              <Zap className="w-6 h-6 text-primary fill-primary" />
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/30">
+              <Zap className="w-7 h-7 text-yellow-300 fill-yellow-300" />
             </div>
             <div>
               <h2 className="text-2xl font-display font-black text-white">Flash Sale</h2>
-              <p className="text-white/65 text-sm">Limited time — don't miss out!</p>
+              <p className="text-white/70 text-sm flex items-center gap-1.5">
+                <Clock className="w-3.5 h-3.5" /> Hurry! Limited stock available
+              </p>
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-white/80 text-sm font-semibold">Ends in</span>
+            <span className="text-white/80 text-sm font-semibold hidden sm:block">Ends in</span>
             <CountdownTimer targetDate={saleEnd} />
           </div>
         </div>
 
         {/* Products */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
           {SALE_PRODUCTS.map((p, i) => (
             <motion.div
               key={p.slug}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.09 }}
+              transition={{ delay: i * 0.08 }}
+              whileHover={{ y: -4 }}
             >
-              <Link to={`/products/${p.slug}`} className="block bg-white rounded-2xl overflow-hidden group hover:shadow-deep hover:-translate-y-1.5 transition-all duration-300 border border-white/10">
-                <div className="relative aspect-square overflow-hidden bg-primary-50">
-                  <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-                  <span className="absolute top-2 left-2 bg-gradient-to-r from-secondary to-amber-400 text-primary text-xs font-black px-2.5 py-1 rounded-lg shadow-yellow-glow">
-                    {p.discount}% OFF
+              <Link to={`/products/${p.slug}`}
+                className="block bg-white rounded-2xl overflow-hidden group border border-white/20 hover:shadow-hover transition-all duration-300 card-hover-top relative">
+                {/* Discount badge */}
+                <div className="absolute top-2 left-2 z-10">
+                  <span className="bg-gradient-to-r from-orange-500 to-red-500 text-white text-[10px] font-black px-2 py-1 rounded-lg shadow-orange">
+                    {p.off}% OFF
                   </span>
                 </div>
-                <div className="p-3.5">
-                  <p className="text-sm font-semibold text-foreground line-clamp-2 mb-2 leading-snug">{p.name}</p>
-                  <div className="flex items-center gap-2 mb-2.5">
-                    <span className="text-primary font-black text-base">₹{p.salePrice.toLocaleString('en-IN')}</span>
-                    <span className="text-muted-foreground line-through text-xs">₹{p.originalPrice.toLocaleString('en-IN')}</span>
+
+                {/* Image */}
+                <div className="aspect-square overflow-hidden bg-gray-50">
+                  <img src={p.img} alt={p.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    onError={e => { (e.target as HTMLImageElement).src = '/images/placeholder.svg'; }}
+                  />
+                </div>
+
+                <div className="p-3">
+                  <p className="text-xs font-semibold text-gray-800 line-clamp-2 mb-2 leading-snug">{p.name}</p>
+                  <div className="flex items-baseline gap-1.5 mb-2">
+                    <span className="text-base font-black text-gray-900">₹{p.sale.toLocaleString('en-IN')}</span>
+                    <span className="text-xs text-gray-400 line-through">₹{p.original.toLocaleString('en-IN')}</span>
                   </div>
                   {/* Stock bar */}
-                  <div className="h-1.5 bg-primary-100 rounded-full overflow-hidden">
+                  <div className="h-1.5 bg-orange-100 rounded-full overflow-hidden">
                     <motion.div
                       initial={{ width: 0 }}
                       whileInView={{ width: `${p.sold}%` }}
                       viewport={{ once: true }}
                       transition={{ duration: 1, delay: 0.3 + i * 0.1 }}
-                      className="h-full bg-gradient-to-r from-secondary to-amber-400 rounded-full"
+                      className="h-full bg-gradient-to-r from-orange-400 to-red-500 rounded-full"
                     />
                   </div>
-                  <p className="text-[10px] text-muted-foreground mt-1 font-medium">{p.sold}% sold</p>
+                  <p className="text-[10px] text-gray-400 mt-1 font-medium">{p.sold}% sold</p>
                 </div>
               </Link>
             </motion.div>
@@ -110,7 +123,8 @@ export default function FlashSaleSection() {
         </div>
 
         <div className="text-center mt-8">
-          <Link to="/products?hasDiscount=true" className="inline-flex items-center gap-2 bg-secondary text-primary font-bold px-8 py-3 rounded-xl hover:bg-secondary-400 transition-all shadow-yellow-glow hover:shadow-yellow-glow-lg hover:-translate-y-0.5">
+          <Link to="/products?hasDiscount=true"
+            className="inline-flex items-center gap-2 bg-white text-orange-600 font-bold px-8 py-3 rounded-2xl hover:bg-orange-50 transition-all shadow-orange hover:-translate-y-0.5">
             View All Sale Items <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

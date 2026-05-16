@@ -1,38 +1,37 @@
 import { motion } from 'framer-motion';
-import { Shield, Truck, RotateCcw, Award, Headphones, CreditCard } from 'lucide-react';
+import { Shield, Truck, RotateCcw, Award, Headphones, CreditCard, Leaf, Star } from 'lucide-react';
 
 const FEATURES = [
-  { icon: Truck,        title: 'Free Delivery',    desc: 'On orders above ₹499' },
-  { icon: Shield,       title: 'Safe & Certified', desc: 'BIS & GOTS certified' },
-  { icon: RotateCcw,    title: 'Easy Returns',     desc: '7-day hassle-free' },
-  { icon: Award,        title: 'Premium Quality',  desc: 'Curated & tested' },
-  { icon: Headphones,   title: '24/7 Support',     desc: 'Expert baby care advice' },
-  { icon: CreditCard,   title: 'Secure Payments',  desc: 'Razorpay & UPI' },
+  { icon: Truck,       title: 'Free Delivery',       desc: 'On orders above ₹499',         color: 'text-sky-600',    bg: 'bg-sky-50',    border: 'border-sky-100' },
+  { icon: Shield,      title: '100% Authentic',       desc: 'BIS & GOTS certified',         color: 'text-green-600',  bg: 'bg-green-50',  border: 'border-green-100' },
+  { icon: RotateCcw,   title: 'Easy Returns',         desc: '7-day hassle-free',            color: 'text-orange-600', bg: 'bg-orange-50', border: 'border-orange-100' },
+  { icon: Award,       title: 'Premium Quality',      desc: 'Curated & quality tested',     color: 'text-purple-600', bg: 'bg-purple-50', border: 'border-purple-100' },
+  { icon: Headphones,  title: '24/7 Support',         desc: 'Expert baby care advice',      color: 'text-pink-600',   bg: 'bg-pink-50',   border: 'border-pink-100' },
+  { icon: CreditCard,  title: 'Secure Payments',      desc: 'Razorpay & UPI protected',     color: 'text-teal-600',   bg: 'bg-teal-50',   border: 'border-teal-100' },
+  { icon: Leaf,        title: 'Organic Options',      desc: 'Natural & eco-friendly',       color: 'text-emerald-600',bg: 'bg-emerald-50',border: 'border-emerald-100' },
+  { icon: Star,        title: '4.9★ Rated',           desc: '50,000+ happy parents',        color: 'text-amber-600',  bg: 'bg-amber-50',  border: 'border-amber-100' },
 ];
 
 export default function WhyChooseUs() {
   return (
-    <section className="relative py-10 overflow-hidden bg-gradient-to-r from-primary-800 via-primary to-accent">
-      {/* Gold radial shimmer */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,215,0,0.18),transparent_60%)] pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(255,215,0,0.10),transparent_50%)] pointer-events-none" />
-
-      <div className="section-container relative">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 lg:gap-0 lg:divide-x lg:divide-white/10">
+    <section className="py-14 bg-white border-y border-gray-100">
+      <div className="section-container">
+        <div className="text-center mb-10">
+          <div className="eyebrow mx-auto w-fit">
+            <span className="w-1.5 h-1.5 rounded-full bg-sky-500 inline-block animate-pulse" /> Why My Baby
+          </div>
+          <h2 className="section-heading">Why Parents Trust Us</h2>
+          <div className="section-divider mx-auto mt-2" />
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
           {FEATURES.map((f, i) => (
-            <motion.div
-              key={f.title}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.07 }}
-              className="flex flex-col items-center text-center gap-2.5 px-4 py-3 group"
-            >
-              <div className="w-12 h-12 rounded-2xl backdrop-blur-sm border border-white/20 flex items-center justify-center group-hover:bg-white/20 transition-all duration-300" style={{ backgroundColor: 'rgba(255,255,255,0.12)' }}>
-                <f.icon className="w-5 h-5 text-secondary" />
+            <motion.div key={f.title} initial={{ opacity:0, y:16 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ delay: i*0.06 }}
+              className={`flex flex-col items-center text-center gap-3 p-4 rounded-2xl ${f.bg} border ${f.border} hover:shadow-soft transition-all group cursor-default`}>
+              <div className={`w-12 h-12 rounded-xl ${f.bg} border ${f.border} flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                <f.icon className={`w-6 h-6 ${f.color}`} />
               </div>
-              <div className="font-bold text-sm text-white leading-snug">{f.title}</div>
-              <div className="text-xs text-white/65 leading-snug">{f.desc}</div>
+              <div className="font-bold text-xs text-gray-900 leading-tight">{f.title}</div>
+              <div className="text-[10px] text-gray-500 leading-snug">{f.desc}</div>
             </motion.div>
           ))}
         </div>

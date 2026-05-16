@@ -1,229 +1,249 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Star, ShoppingBag, Sparkles, Shield, Truck, RotateCcw } from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
-import apiClient from '../../services/api/client';
-import { HERO_IMAGES } from '../../constants/images';
+import { ChevronLeft, ChevronRight, Star, ShoppingBag, Sparkles, Shield, Truck, RotateCcw, ArrowRight } from 'lucide-react';
 
-const FALLBACK_SLIDES = [
+const SLIDES = [
   {
-    id: '1',
-    title: 'Everything Your\nLittle One Needs',
-    subtitle: 'The New Born Baby Shop',
-    description: 'Curated with love — organic clothing, safe toys, feeding essentials and skincare for your precious baby.',
-    image: 'https://images.unsplash.com/photo-1519689680058-324335c77eba?w=1400&q=90',
-    cta: { label: 'Shop Now', href: '/products' },
-    ctaSecondary: { label: 'New Arrivals', href: '/products?isNew=true' },
-    badge: '🎁 WELCOME10 — 10% off',
-    stat: { value: '1500+', label: 'Products' },
-    accent: 'from-primary-50 via-white to-brand-lavender',
+    id: 1,
+    badge:      '🎁 Welcome Offer — WELCOME10',
+    title:      'Everything Your\nLittle One\nNeeds',
+    highlight:  'Little One',
+    subtitle:   'Premium baby products curated with love — organic, safe & certified',
+    cta:        { label: 'Shop Now', href: '/products' },
+    cta2:       { label: 'New Arrivals', href: '/products?isNew=true' },
+    bg:         'from-sky-50 via-blue-50 to-indigo-50',
+    accent:     'from-sky-400 to-blue-600',
+    image:      '/images/hero/hero-baby.jpg',
+    fallback:   '👶',
+    stats:      [{ v: '1500+', l: 'Products' }, { v: '50K+', l: 'Happy Parents' }, { v: '4.9★', l: 'Rating' }],
   },
   {
-    id: '2',
-    title: 'Toys That Teach\n& Delight',
-    subtitle: 'Up to 50% Off on Toys & Games',
-    description: 'BIS-certified, safe and educational toys designed to spark curiosity and creativity in every child.',
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=90',
-    cta: { label: 'Shop Toys', href: '/category/toys-games' },
-    ctaSecondary: { label: 'View Sale', href: '/products?hasDiscount=true' },
-    badge: '⚡ Flash Sale Live',
-    stat: { value: '50%', label: 'Off Toys' },
-    accent: 'from-primary-50 to-primary-100',
+    id: 2,
+    badge:      '⚡ Flash Sale — Up to 50% Off',
+    title:      'Toys That\nSpark Joy &\nCuriosity',
+    highlight:  'Spark Joy',
+    subtitle:   'BIS-certified safe educational toys designed to grow with your child',
+    cta:        { label: 'Shop Toys', href: '/category/toys-games' },
+    cta2:       { label: 'View Sale', href: '/products?hasDiscount=true' },
+    bg:         'from-orange-50 via-amber-50 to-yellow-50',
+    accent:     'from-orange-400 to-pink-500',
+    image:      '/images/hero/hero-toys.jpg',
+    fallback:   '🧸',
+    stats:      [{ v: '50%', l: 'Off Toys' }, { v: 'BIS', l: 'Certified' }, { v: 'Free', l: 'Delivery ₹499+' }],
   },
   {
-    id: '3',
-    title: 'Pure Skincare\nFor Baby Skin',
-    subtitle: 'Dermatologist Tested & Approved',
-    description: 'Gentle, organic baby skincare — shampoos, lotions, massage oils and rash creams safe for newborns.',
-    image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1400&q=90',
-    cta: { label: 'Shop Skincare', href: '/category/bath-skin-care' },
-    ctaSecondary: { label: 'Learn More', href: '/products?isNew=true' },
-    badge: '🌿 100% Organic',
-    stat: { value: '4.9★', label: 'Rating' },
-    accent: 'from-primary-50 to-brand-lavender',
+    id: 3,
+    badge:      '🌿 100% Organic & Dermatologist Tested',
+    title:      'Gentle Care\nFor Delicate\nBaby Skin',
+    highlight:  'Baby Skin',
+    subtitle:   'Premium organic skincare — tear-free, sulfate-free, pediatrician approved',
+    cta:        { label: 'Shop Skincare', href: '/category/bath-skin-care' },
+    cta2:       { label: 'Learn More', href: '/products?isNew=true' },
+    bg:         'from-green-50 via-teal-50 to-cyan-50',
+    accent:     'from-green-400 to-teal-600',
+    image:      '/images/hero/hero-skincare.jpg',
+    fallback:   '🧴',
+    stats:      [{ v: 'Organic', l: 'Ingredients' }, { v: 'Safe', l: 'For Newborns' }, { v: 'Tested', l: 'Dermatologist' }],
   },
 ];
 
-const TRUST = [
-  { icon: Truck, label: 'Free Delivery', sub: 'Above ₹499' },
-  { icon: Shield, label: 'BIS Certified', sub: 'Safe products' },
-  { icon: RotateCcw, label: 'Easy Returns', sub: '7-day policy' },
+const TRUST_BADGES = [
+  { icon: Truck,    label: 'Free Delivery', sub: 'Above ₹499' },
+  { icon: Shield,   label: 'BIS Certified', sub: 'Safe products' },
+  { icon: RotateCcw,label: 'Easy Returns',  sub: '7-day policy' },
+  { icon: Star,     label: '4.9★ Rating',   sub: '50K+ reviews' },
 ];
 
 export default function HeroSection() {
-  const [current, setCurrent] = useState(0);
+  const [cur, setCur] = useState(0);
+  const [dir, setDir] = useState(1);
 
-  const { data } = useQuery({
-    queryKey: ['banners', 'hero'],
-    queryFn: () => apiClient.get('/banners?type=HERO'),
-    staleTime: 300000,
-  });
-
-  const slides = (data as any)?.data?.data?.length > 0 ? (data as any).data.data : FALLBACK_SLIDES;
-
-  const next = useCallback(() => setCurrent(c => (c + 1) % slides.length), [slides.length]);
-  const prev = () => setCurrent(c => (c - 1 + slides.length) % slides.length);
+  const next = useCallback(() => { setDir(1); setCur(c => (c + 1) % SLIDES.length); }, []);
+  const prev = () => { setDir(-1); setCur(c => (c - 1 + SLIDES.length) % SLIDES.length); };
 
   useEffect(() => {
-    const t = setInterval(next, 5000);
+    const t = setInterval(next, 5500);
     return () => clearInterval(t);
   }, [next]);
 
-  const slide = slides[current];
+  const slide = SLIDES[cur];
+
+  const variants = {
+    enter: (d: number) => ({ opacity: 0, x: d > 0 ? 60 : -60 }),
+    center: { opacity: 1, x: 0 },
+    exit:  (d: number) => ({ opacity: 0, x: d > 0 ? -60 : 60 }),
+  };
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-primary-50 via-white to-brand-lavender">
-      {/* Background blobs */}
-      <div className="absolute -top-40 -right-40 w-[700px] h-[700px] rounded-full blur-[100px] pointer-events-none" style={{ backgroundColor: 'rgba(61,53,168,0.04)' }} />
-      <div className="absolute bottom-0 -left-20 w-[400px] h-[400px] rounded-full blur-[80px] pointer-events-none" style={{ backgroundColor: 'rgba(255,215,0,0.08)' }} />
+    <div className="relative overflow-hidden">
+      {/* Main hero */}
+      <div className={`bg-gradient-to-br ${slide.bg} transition-all duration-700`}>
+        <div className="section-container py-10 lg:py-0">
+          <div className="grid lg:grid-cols-2 gap-8 items-center min-h-[520px]">
 
-      <div className="section-container py-8 lg:py-0 relative">
-        <div className="grid lg:grid-cols-2 gap-8 items-center min-h-[560px]">
-
-          {/* ── Content ── */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={`content-${current}`}
-              initial={{ opacity: 0, x: -40 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 40 }}
-              transition={{ duration: 0.45, ease: 'easeOut' }}
-              className="py-12 lg:py-16"
-            >
-              {/* Badge */}
-              {slide.badge && (
-                <motion.span
+            {/* ── Content ── */}
+            <AnimatePresence mode="wait" custom={dir}>
+              <motion.div
+                key={`content-${cur}`}
+                custom={dir}
+                variants={variants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
+                className="py-12 lg:py-16"
+              >
+                {/* Badge */}
+                <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 }}
-                  className="inline-flex items-center gap-2 bg-secondary text-primary text-xs font-black px-4 py-2 rounded-full mb-5 shadow-yellow-glow border border-secondary-400/30"
+                  className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm text-gray-700 text-xs font-bold px-4 py-2 rounded-full shadow-soft border border-white/60 mb-5"
                 >
-                  <Sparkles className="w-3.5 h-3.5" />
+                  <Sparkles className="w-3.5 h-3.5 text-orange-500" />
                   {slide.badge}
-                </motion.span>
-              )}
+                </motion.div>
 
-              {/* Heading */}
-              <h1 className="text-4xl lg:text-6xl font-display font-black text-foreground leading-[1.08] tracking-tight mb-4 whitespace-pre-line">
-                {slide.title?.split('\n').map((line: string, i: number) => (
-                  <span key={i} className="block">
-                    {i === 1
-                      ? <span className="relative inline-block">
-                          <span className="gradient-text">{line}</span>
-                          <span className="absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r from-secondary to-amber-400 rounded-full" />
-                        </span>
-                      : line
-                    }
-                  </span>
-                ))}
-              </h1>
+                {/* Heading */}
+                <h1 className="text-4xl lg:text-6xl font-display font-black text-gray-900 leading-[1.08] tracking-tight mb-4 whitespace-pre-line">
+                  {slide.title.split('\n').map((line, i) => (
+                    <span key={i} className="block">
+                      {line === slide.highlight
+                        ? <span className={`bg-gradient-to-r ${slide.accent} bg-clip-text text-transparent`}>{line}</span>
+                        : line
+                      }
+                    </span>
+                  ))}
+                </h1>
 
-              <p className="text-lg font-bold text-primary mb-3">{slide.subtitle}</p>
-              <p className="text-gray-500 text-base mb-8 max-w-lg leading-relaxed">{slide.description}</p>
+                <p className="text-gray-500 text-lg mb-8 max-w-lg leading-relaxed">{slide.subtitle}</p>
 
-              {/* CTAs */}
-              <div className="flex gap-3 flex-wrap">
-                <Link to={slide.cta?.href || '/products'} className="btn-primary text-sm px-7 py-3.5">
-                  <ShoppingBag className="w-4 h-4" />
-                  {slide.cta?.label || 'Shop Now'}
-                </Link>
-                {slide.ctaSecondary && (
-                  <Link to={slide.ctaSecondary.href} className="btn-secondary text-sm px-7 py-3.5">
-                    {slide.ctaSecondary.label}
+                {/* CTAs */}
+                <div className="flex gap-3 flex-wrap mb-10">
+                  <Link to={slide.cta.href}
+                    className="flex items-center gap-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-bold px-7 py-3.5 rounded-2xl hover:opacity-90 hover:-translate-y-0.5 transition-all shadow-blue">
+                    <ShoppingBag className="w-4 h-4" /> {slide.cta.label}
                   </Link>
-                )}
-              </div>
+                  <Link to={slide.cta2.href}
+                    className="flex items-center gap-2 bg-white/80 backdrop-blur-sm text-gray-700 font-bold px-7 py-3.5 rounded-2xl hover:bg-white hover:-translate-y-0.5 transition-all shadow-soft border border-white/60">
+                    {slide.cta2.label} <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
 
-              {/* Trust pills */}
-              <div className="flex flex-wrap items-center gap-3 mt-10 pt-8 border-t border-primary/10">
-                {TRUST.map(t => (
-                  <div key={t.label} className="flex items-center gap-2 bg-white/70 backdrop-blur-sm rounded-xl px-3 py-2 shadow-card border border-border/50">
-                    <div className="w-7 h-7 rounded-lg bg-primary-50 flex items-center justify-center">
-                      <t.icon className="w-3.5 h-3.5 text-primary" />
+                {/* Stats */}
+                <div className="flex items-center gap-6">
+                  {slide.stats.map((s, i) => (
+                    <div key={i} className="text-center">
+                      <div className={`text-xl font-black bg-gradient-to-r ${slide.accent} bg-clip-text text-transparent`}>{s.v}</div>
+                      <div className="text-xs text-gray-500 font-medium">{s.l}</div>
                     </div>
-                    <div>
-                      <div className="text-xs font-bold text-foreground leading-none">{t.label}</div>
-                      <div className="text-[10px] text-muted-foreground mt-0.5">{t.sub}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          </AnimatePresence>
-
-          {/* ── Image ── */}
-          <div className="relative hidden lg:block">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={`image-${current}`}
-                initial={{ opacity: 0, scale: 0.96 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 1.04 }}
-                transition={{ duration: 0.5 }}
-                className="relative"
-              >
-                {/* Decorative ring */}
-                <div className="absolute -inset-4 rounded-[2.5rem] bg-gradient-to-br from-primary/8 to-secondary/8 blur-sm" />
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/6 to-secondary/6 rounded-3xl" />
-                <img
-                  src={slide.image}
-                  alt={slide.title}
-                  className="relative w-full h-[500px] object-cover rounded-3xl shadow-deep"
-                  loading="eager"
-                />
-
-                {/* Floating rating card */}
-                <motion.div
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.35 }}
-                  className="absolute bottom-6 left-6 glass-card px-4 py-3"
-                >
-                  <div className="flex items-center gap-2 mb-1">
-                    {[...Array(5)].map((_, i) => <Star key={i} className="w-3.5 h-3.5 fill-secondary text-secondary" />)}
-                    <span className="text-xs font-black text-foreground ml-1">4.9</span>
-                  </div>
-                  <p className="text-xs text-muted-foreground font-medium">50,000+ happy families</p>
-                </motion.div>
-
-                {/* Floating stat card */}
-                <motion.div
-                  initial={{ opacity: 0, y: -16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 }}
-                  className="absolute top-6 right-6 glass-card px-4 py-3 text-center"
-                >
-                  <div className="text-2xl font-black text-primary leading-none">{slide.stat?.value || '1500+'}</div>
-                  <div className="text-xs text-muted-foreground font-medium mt-0.5">{slide.stat?.label || 'Products'}</div>
-                </motion.div>
+                  ))}
+                </div>
               </motion.div>
             </AnimatePresence>
+
+            {/* ── Image ── */}
+            <div className="relative hidden lg:flex items-center justify-center">
+              <AnimatePresence mode="wait" custom={dir}>
+                <motion.div
+                  key={`image-${cur}`}
+                  custom={dir}
+                  variants={variants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  className="relative w-full"
+                >
+                  {/* Decorative blob */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${slide.accent} opacity-10 rounded-[40%_60%_60%_40%_/_40%_40%_60%_60%] blur-3xl scale-90`} />
+
+                  <div className="relative rounded-3xl overflow-hidden shadow-hover aspect-[4/3]">
+                    <img
+                      src={slide.image}
+                      alt={slide.title}
+                      className="w-full h-full object-cover"
+                      loading="eager"
+                      onError={e => {
+                        (e.target as HTMLImageElement).style.display = 'none';
+                        const p = (e.target as HTMLImageElement).parentElement!;
+                        p.innerHTML = `<div class="w-full h-full flex items-center justify-center text-9xl bg-gradient-to-br from-white/60 to-white/20">${slide.fallback}</div>`;
+                      }}
+                    />
+                  </div>
+
+                  {/* Floating card 1 */}
+                  <motion.div
+                    animate={{ y: [0, -8, 0] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                    className="absolute -bottom-4 -left-4 glass-card p-3.5 rounded-2xl"
+                  >
+                    <div className="flex items-center gap-2">
+                      <div className="flex gap-0.5">
+                        {[...Array(5)].map((_, i) => <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />)}
+                      </div>
+                      <span className="text-xs font-black text-gray-800">4.9</span>
+                    </div>
+                    <p className="text-[10px] text-gray-500 mt-0.5">50K+ happy families</p>
+                  </motion.div>
+
+                  {/* Floating card 2 */}
+                  <motion.div
+                    animate={{ y: [0, 8, 0] }}
+                    transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+                    className="absolute -top-4 -right-4 glass-card p-3.5 rounded-2xl"
+                  >
+                    <p className="text-xs font-black text-gray-800">🚀 Just arrived</p>
+                    <p className="text-[10px] text-gray-500 mt-0.5">1500+ new products</p>
+                  </motion.div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+        </div>
+
+        {/* Slide controls */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-3 z-10">
+          {SLIDES.map((_, i) => (
+            <button key={i} onClick={() => { setDir(i > cur ? 1 : -1); setCur(i); }}
+              className={`transition-all duration-300 rounded-full ${i === cur ? 'w-8 h-3 bg-sky-500 shadow-blue' : 'w-3 h-3 bg-gray-300 hover:bg-gray-400'}`}
+            />
+          ))}
+        </div>
+
+        <button onClick={prev} className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 glass-card rounded-full flex items-center justify-center hover:shadow-hover transition-all z-10">
+          <ChevronLeft className="w-5 h-5 text-gray-600" />
+        </button>
+        <button onClick={next} className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 glass-card rounded-full flex items-center justify-center hover:shadow-hover transition-all z-10">
+          <ChevronRight className="w-5 h-5 text-gray-600" />
+        </button>
+      </div>
+
+      {/* ── Trust badges strip ── */}
+      <div className="bg-white border-b border-gray-100">
+        <div className="section-container">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-0 divide-x divide-gray-100">
+            {TRUST_BADGES.map((t, i) => (
+              <motion.div
+                key={t.label}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.08 }}
+                className="flex items-center gap-3 py-4 px-6"
+              >
+                <div className="w-10 h-10 rounded-xl bg-sky-50 flex items-center justify-center shrink-0">
+                  <t.icon className="w-5 h-5 text-sky-600" />
+                </div>
+                <div>
+                  <div className="text-sm font-bold text-gray-900">{t.label}</div>
+                  <div className="text-xs text-gray-500">{t.sub}</div>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </div>
-
-      {/* Slide dots */}
-      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10">
-        {slides.map((_: any, i: number) => (
-          <button
-            key={i}
-            onClick={() => setCurrent(i)}
-            className={`transition-all duration-300 rounded-full ${
-              i === current
-                ? 'bg-gradient-to-r from-secondary to-amber-400 w-8 h-2.5 shadow-yellow-glow'
-                : 'bg-primary/20 w-2.5 h-2.5 hover:bg-primary/30'
-            }`}
-          />
-        ))}
-      </div>
-
-      <button onClick={prev} className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur-md shadow-soft border border-border/50 rounded-full flex items-center justify-center hover:bg-white hover:shadow-elevated hover:border-primary/20 transition-all z-10">
-        <ChevronLeft className="w-5 h-5 text-foreground" />
-      </button>
-      <button onClick={next} className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur-md shadow-soft border border-border/50 rounded-full flex items-center justify-center hover:bg-white hover:shadow-elevated hover:border-primary/20 transition-all z-10">
-        <ChevronRight className="w-5 h-5 text-foreground" />
-      </button>
-    </section>
+    </div>
   );
 }

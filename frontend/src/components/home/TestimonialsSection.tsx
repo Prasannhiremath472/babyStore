@@ -2,90 +2,66 @@ import { motion } from 'framer-motion';
 import { Star, Quote } from 'lucide-react';
 
 const TESTIMONIALS = [
-  { name: 'Priya Sharma',   location: 'Bengaluru', rating: 5, avatar: '👩', tag: 'Verified Buyer', review: "My Baby is my go-to for all baby needs. The quality is exceptional and delivery is always on time. My baby loves everything I've ordered!" },
-  { name: 'Rahul Mehta',    location: 'Mumbai',    rating: 5, avatar: '👨', tag: 'Parent of 2',     review: "Amazing range of products! The wooden toys are beautifully crafted and my toddler plays with them all day. Will definitely order again." },
-  { name: 'Sneha Patel',    location: 'Delhi',     rating: 5, avatar: '👩', tag: 'New Mom',         review: "The organic baby clothing is worth every rupee. So soft and gentle on my newborn's skin. Customer service is also top-notch!" },
-  { name: 'Arjun Nair',     location: 'Hyderabad', rating: 5, avatar: '👨', tag: 'Verified Buyer', review: "Best baby products website in India! Easy to use, great prices, and the products are exactly as described. Highly recommend!" },
+  { name: 'Priya Sharma',   city: 'Bengaluru', rating: 5, avatar: '👩', tag: 'Verified Buyer', review: 'My Baby is my absolute go-to for everything baby! The quality is outstanding and delivery is always on time. My newborn loves the organic clothing range!' },
+  { name: 'Rahul Mehta',    city: 'Mumbai',    rating: 5, avatar: '👨', tag: 'Parent of 2',    review: 'Amazing selection of toys and feeding products. The Luvlap stroller I ordered arrived perfectly packed and works beautifully. Highly recommend!' },
+  { name: 'Sneha Patel',    city: 'Delhi',     rating: 5, avatar: '👩', tag: 'New Mom',        review: 'The Himalaya and Chicco skincare products are absolutely worth every rupee. My baby\'s skin is so soft and healthy. Customer service is top-notch!' },
+  { name: 'Arjun Nair',     city: 'Hyderabad', rating: 5, avatar: '👨', tag: 'Verified Buyer', review: 'Best baby products website in India! Easy navigation, genuine products, and super fast delivery. The Pampers diapers pack was delivered same day!' },
+  { name: 'Kavita Iyer',    city: 'Chennai',   rating: 5, avatar: '👩', tag: 'Loyal Customer', review: 'I\'ve been shopping here for 2 years now. Never disappointed. The variety of products and trusted brands make this my first choice for baby shopping.' },
+  { name: 'Vikram Joshi',   city: 'Pune',      rating: 5, avatar: '👨', tag: 'Verified Buyer', review: 'Ordered a baby carrier and wooden cot. Both are excellent quality. The baby cot assembly was easy and the carrier is super comfortable for my 3-month-old.' },
 ];
 
 const STATS = [
-  { value: '50,000+', label: 'Happy Families' },
-  { value: '1,500+',  label: 'Products' },
-  { value: '4.9★',    label: 'Avg Rating' },
-  { value: '98%',     label: 'On-time Delivery' },
+  { value: '50,000+', label: 'Happy Families',   color: 'text-sky-600',    bg: 'bg-sky-50' },
+  { value: '1,500+',  label: 'Products',         color: 'text-orange-600', bg: 'bg-orange-50' },
+  { value: '4.9★',    label: 'Avg Rating',       color: 'text-green-600',  bg: 'bg-green-50' },
+  { value: '98%',     label: 'On-time Delivery', color: 'text-purple-600', bg: 'bg-purple-50' },
 ];
 
 export default function TestimonialsSection() {
   return (
-    <section className="py-16 bg-gradient-to-b from-[#F8F7FF] via-white to-primary-50/30 relative overflow-hidden">
-      {/* Decorative large quote */}
-      <div className="absolute top-6 left-1/2 -translate-x-1/2 text-[180px] font-serif text-primary/3 select-none pointer-events-none leading-none">"</div>
+    <section className="py-16 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 text-[200px] font-serif text-gray-100 select-none pointer-events-none leading-none opacity-40">"</div>
 
       <div className="section-container relative">
-        {/* Heading */}
         <div className="text-center mb-12">
           <div className="eyebrow mx-auto w-fit">
-            <span className="eyebrow-dot" /> Happy Families
+            <span className="w-1.5 h-1.5 rounded-full bg-pink-500 inline-block animate-pulse" /> Happy Families
           </div>
-          <h2 className="section-heading mt-1">What Parents Say</h2>
-          <p className="text-muted-foreground mt-2 text-sm">Join 50,000+ families who trust My Baby</p>
+          <h2 className="section-heading">What Parents Say</h2>
+          <div className="section-divider mx-auto mt-2" />
+          <p className="text-gray-500 text-sm mt-3">Join 50,000+ families who trust My Baby</p>
         </div>
 
-        {/* Stats row */}
+        {/* Stats */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12">
           {STATS.map((s, i) => (
-            <motion.div
-              key={s.label}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08 }}
-              className="text-center bg-white rounded-2xl py-5 px-4 border border-border/60 shadow-card"
-            >
-              <div className="text-2xl font-black text-primary gradient-text mb-1">{s.value}</div>
-              <div className="text-xs text-muted-foreground font-semibold">{s.label}</div>
+            <motion.div key={s.label} initial={{ opacity:0, y:16 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ delay: i*0.08 }}
+              className={`text-center ${s.bg} rounded-2xl py-5 px-4 border border-gray-100`}>
+              <div className={`text-2xl font-black ${s.color} mb-1`}>{s.value}</div>
+              <div className="text-xs text-gray-500 font-semibold">{s.label}</div>
             </motion.div>
           ))}
         </div>
 
-        {/* Review cards */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {/* Reviews grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {TESTIMONIALS.map((t, i) => (
-            <motion.div
-              key={t.name}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.09 }}
-              className="relative backdrop-blur-sm p-6 rounded-3xl hover:shadow-elevated transition-all duration-300 group overflow-hidden card-hover-border" style={{ backgroundColor: 'rgba(255,255,255,0.85)', border: '1px solid rgba(61,53,168,0.08)' }}
-              onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(61,53,168,0.25)') as any}
-              onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(61,53,168,0.08)') as any}
-            >
-              {/* Quote icon */}
-              <Quote className="w-9 h-9 text-secondary/50 mb-4" />
-
-              {/* Review text */}
+            <motion.div key={t.name} initial={{ opacity:0, y:24 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ delay: i*0.09 }}
+              className="bg-white p-6 rounded-3xl border border-gray-100 hover:shadow-hover transition-all duration-300 group card-hover-top relative overflow-hidden">
+              <Quote className="w-8 h-8 text-orange-200 mb-4" />
               <p className="text-gray-600 text-sm leading-relaxed mb-5">"{t.review}"</p>
-
-              {/* Reviewer */}
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-xl shrink-0">
-                  {t.avatar}
-                </div>
+                <div className="w-10 h-10 bg-gradient-to-br from-sky-400 to-blue-600 rounded-full flex items-center justify-center text-xl shrink-0">{t.avatar}</div>
                 <div className="flex-1 min-w-0">
-                  <div className="font-bold text-sm text-foreground truncate">{t.name}</div>
-                  <div className="text-xs text-muted-foreground">{t.location}</div>
+                  <div className="font-bold text-sm text-gray-900 truncate">{t.name}</div>
+                  <div className="text-xs text-gray-500">{t.city}</div>
                 </div>
               </div>
-
-              {/* Stars + tag */}
-              <div className="flex items-center justify-between mt-3 pt-3 border-t border-border/40">
+              <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-50">
                 <div className="flex gap-0.5">
-                  {[...Array(t.rating)].map((_, j) => (
-                    <Star key={j} className="w-3.5 h-3.5 fill-secondary text-secondary" />
-                  ))}
+                  {[...Array(t.rating)].map((_, j) => <Star key={j} className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />)}
                 </div>
-                <span className="text-[10px] bg-primary-50 text-primary font-bold px-2 py-0.5 rounded-full">{t.tag}</span>
+                <span className="text-[10px] bg-green-50 text-green-700 font-bold px-2 py-0.5 rounded-full">{t.tag}</span>
               </div>
             </motion.div>
           ))}
