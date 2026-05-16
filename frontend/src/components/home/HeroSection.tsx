@@ -6,45 +6,45 @@ import { ChevronLeft, ChevronRight, Star, ShoppingBag, Sparkles, Shield, Truck, 
 const SLIDES = [
   {
     id: 1,
-    badge:      '🎁 Welcome Offer — WELCOME10',
-    title:      'Everything Your\nLittle One\nNeeds',
+    badge:      '🎁 Welcome Offer — Use code WELCOME10',
+    title:      'Dress Your\nLittle One\nWith Love',
     highlight:  'Little One',
-    subtitle:   'Premium baby products curated with love — organic, safe & certified',
-    cta:        { label: 'Shop Now', href: '/products' },
+    subtitle:   '1500+ premium baby clothing styles — organic cotton, BIS certified & adorable',
+    cta:        { label: 'Shop Baby Clothing', href: '/category/baby-clothing' },
     cta2:       { label: 'New Arrivals', href: '/products?isNew=true' },
     bg:         'from-sky-50 via-blue-50 to-indigo-50',
     accent:     'from-sky-400 to-blue-600',
-    image:      '/images/baby-clothing/dl-0001.jpeg',
-    fallback:   '👶',
+    image:      '/images/hero/hero-baby.jpg',
+    fallback:   '👗',
     stats:      [{ v: '1500+', l: 'Products' }, { v: '50K+', l: 'Happy Parents' }, { v: '4.9★', l: 'Rating' }],
   },
   {
     id: 2,
-    badge:      '⚡ Flash Sale — Up to 50% Off',
-    title:      'Toys That\nSpark Joy &\nCuriosity',
-    highlight:  'Spark Joy',
-    subtitle:   'BIS-certified safe educational toys designed to grow with your child',
-    cta:        { label: 'Shop Toys', href: '/category/toys-games' },
-    cta2:       { label: 'View Sale', href: '/products?hasDiscount=true' },
+    badge:      '⚡ Flash Sale — Up to 50% Off on Toys',
+    title:      'Toys That\nMake Every\nDay Magic',
+    highlight:  'Every\nDay Magic',
+    subtitle:   'BIS-certified safe, educational & fun toys — building blocks, soft toys, puzzles & more',
+    cta:        { label: 'Shop Toys Now', href: '/category/toys-games' },
+    cta2:       { label: 'View All Deals', href: '/products?hasDiscount=true' },
     bg:         'from-orange-50 via-amber-50 to-yellow-50',
     accent:     'from-orange-400 to-pink-500',
-    image:      '/images/toys-games/dl-0087.jpeg',
+    image:      '/images/hero/hero-toys.jpg',
     fallback:   '🧸',
-    stats:      [{ v: '50%', l: 'Off Toys' }, { v: 'BIS', l: 'Certified' }, { v: 'Free', l: 'Delivery ₹499+' }],
+    stats:      [{ v: '50%', l: 'Off Today' }, { v: 'BIS', l: 'Certified Safe' }, { v: '₹499+', l: 'Free Delivery' }],
   },
   {
     id: 3,
-    badge:      '🌿 100% Organic & Dermatologist Tested',
-    title:      'Gentle Care\nFor Delicate\nBaby Skin',
-    highlight:  'Baby Skin',
-    subtitle:   'Premium organic skincare — tear-free, sulfate-free, pediatrician approved',
+    badge:      '🌿 Organic & Dermatologist Approved',
+    title:      'Gentle Care\nFor Your\nBaby\'s Skin',
+    highlight:  'Baby\'s Skin',
+    subtitle:   'Himalaya, Johnson\'s, Chicco & more — tear-free, sulfate-free, safe for newborns',
     cta:        { label: 'Shop Skincare', href: '/category/bath-skin-care' },
-    cta2:       { label: 'Learn More', href: '/products?isNew=true' },
+    cta2:       { label: 'View Brands', href: '/category/bath-skin-care' },
     bg:         'from-green-50 via-teal-50 to-cyan-50',
     accent:     'from-green-400 to-teal-600',
-    image:      '/images/bath-skin-care/dl-0048.jpeg',
+    image:      '/images/hero/hero-skincare.jpg',
     fallback:   '🧴',
-    stats:      [{ v: 'Organic', l: 'Ingredients' }, { v: 'Safe', l: 'For Newborns' }, { v: 'Tested', l: 'Dermatologist' }],
+    stats:      [{ v: '100%', l: 'Organic' }, { v: 'Newborn', l: 'Safe' }, { v: 'Doctor', l: 'Approved' }],
   },
 ];
 
@@ -156,21 +156,26 @@ export default function HeroSection() {
                   transition={{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
                   className="relative w-full"
                 >
-                  {/* Decorative blob */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${slide.accent} opacity-10 rounded-[40%_60%_60%_40%_/_40%_40%_60%_60%] blur-3xl scale-90`} />
+                  {/* Decorative blobs */}
+                  <div className={`absolute -inset-4 bg-gradient-to-br ${slide.accent} opacity-8 rounded-[40%_60%_60%_40%_/_40%_40%_60%_60%] blur-3xl`} />
+                  <div className="absolute -top-6 -right-6 w-40 h-40 bg-yellow-200/40 rounded-full blur-2xl" />
+                  <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-pink-200/40 rounded-full blur-2xl" />
 
-                  <div className="relative rounded-3xl overflow-hidden shadow-hover aspect-[4/3]">
+                  {/* HD image with premium frame */}
+                  <div className="relative rounded-3xl overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.18)] aspect-[4/3] border-4 border-white/60">
                     <img
                       src={slide.image}
                       alt={slide.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                       loading="eager"
                       onError={e => {
                         (e.target as HTMLImageElement).style.display = 'none';
                         const p = (e.target as HTMLImageElement).parentElement!;
-                        p.innerHTML = `<div class="w-full h-full flex items-center justify-center text-9xl bg-gradient-to-br from-white/60 to-white/20">${slide.fallback}</div>`;
+                        p.innerHTML = `<div class="w-full h-full flex items-center justify-center text-9xl bg-gradient-to-br from-gray-100 to-gray-50">${slide.fallback}</div>`;
                       }}
                     />
+                    {/* Subtle shine overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-white/10 pointer-events-none" />
                   </div>
 
                   {/* Floating card 1 */}
