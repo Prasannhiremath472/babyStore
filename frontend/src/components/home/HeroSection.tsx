@@ -42,7 +42,7 @@ const SLIDES = [
     cta2:       { label: 'Learn More', href: '/products?isNew=true' },
     bg:         'from-green-50 via-teal-50 to-cyan-50',
     accent:     'from-green-400 to-teal-600',
-    image:      '/images/bath-skin-care/dl-0045.jpeg',
+    image:      '/images/bath-skin-care/dl-0048.jpeg',
     fallback:   '🧴',
     stats:      [{ v: 'Organic', l: 'Ingredients' }, { v: 'Safe', l: 'For Newborns' }, { v: 'Tested', l: 'Dermatologist' }],
   },
