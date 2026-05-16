@@ -208,35 +208,6 @@ export default function HomePage() {
         {/* 12. TESTIMONIALS */}
         <TestimonialsSection />
 
-        {/* 13. APP DOWNLOAD BANNER */}
-        <section className="py-14 bg-gradient-to-r from-sky-500 to-blue-600 overflow-hidden relative">
-          <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
-          <div className="section-container relative">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
-              <div className="text-white">
-                <div className="text-4xl mb-3">📱</div>
-                <h3 className="text-2xl font-display font-black mb-2">Download the My Baby App</h3>
-                <p className="text-sky-200 mb-5">Exclusive app-only deals, easy reordering, and order tracking on the go!</p>
-                <div className="flex gap-3 justify-center md:justify-start">
-                  <button className="flex items-center gap-2 bg-white text-gray-900 font-bold px-5 py-3 rounded-xl text-sm hover:bg-gray-50 transition-colors">
-                    🍎 App Store
-                  </button>
-                  <button className="flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white font-bold px-5 py-3 rounded-xl text-sm border border-white/30 hover:bg-white/30 transition-colors">
-                    🤖 Google Play
-                  </button>
-                </div>
-              </div>
-              <div className="flex gap-8 text-center">
-                {[['4.8★', 'App Rating'],['1M+','Downloads'],['50K+','Reviews']].map(([v, l]) => (
-                  <div key={l} className="text-white">
-                    <div className="text-3xl font-black">{v}</div>
-                    <div className="text-sky-200 text-xs mt-1">{l}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
 
       </div>
     </>

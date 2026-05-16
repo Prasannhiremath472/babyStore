@@ -5,7 +5,7 @@ import {
   Search, ShoppingCart, Heart, User, Menu, X, ChevronDown,
   MapPin, Truck, Tag, Phone, Bell, Sparkles, ChevronRight,
   Baby, LogOut, Package, Settings, Star, Mic, ArrowRight,
-  Gift, Smartphone, Store, HelpCircle, Percent, Clock
+  Gift, Store, HelpCircle, Percent, Clock
 } from 'lucide-react';
 import { useAppSelector, useAppDispatch } from '../../store';
 import { toggleMobileMenu, toggleSearch } from '../../store/slices/uiSlice';
@@ -89,7 +89,6 @@ const OFFER_ITEMS = [
   '🌿 New: Organic Baby Skincare Collection',
   '🔒 100% Safe Payments via Razorpay & UPI',
   '↩️ Easy 7-day returns on all products',
-  '📱 Download our app — exclusive app-only deals!',
 ];
 
 const POPULAR_SEARCHES = ['Baby Diapers', "Johnson's Baby Shampoo", 'Baby Carrier', 'Feeding Bottle', 'Baby Monitor', 'Himalaya Baby Oil', 'Pampers Pants'];
@@ -184,9 +183,6 @@ export default function Header() {
             <Link to="/offers" className="flex items-center gap-1 hover:text-orange-500 transition-colors font-medium text-orange-500">
               <Percent className="w-3 h-3" /> Today's Offers
             </Link>
-            <span className="flex items-center gap-1">
-              <Smartphone className="w-3 h-3" /> Download App
-            </span>
             <span className="flex items-center gap-1">
               <Phone className="w-3 h-3" /> 1800-123-4567
             </span>
