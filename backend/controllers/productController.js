@@ -87,7 +87,8 @@ exports.list = async (req, res) => {
 // GET /products/featured
 exports.getFeatured = async (req, res) => {
   const limit = parseInt(req.query.limit) || 10;
-  const [products] = await db.query(
+  // Try featured first, fall back to latest active products with images
+  let [products] = await db.query(
     `SELECT p.id, p.name, p.slug, p.sku, p.isBestseller, p.isNew, p.ageGroup,
             b.name as brandName, b.id as brandId,
             (SELECT url FROM product_images WHERE productId = p.id AND isPrimary = 1 LIMIT 1) as imageUrl,
@@ -100,13 +101,31 @@ exports.getFeatured = async (req, res) => {
      WHERE p.isFeatured = 1 AND p.status = 'ACTIVE' AND p.deletedAt IS NULL
      ORDER BY p.createdAt DESC LIMIT ?`, [limit]
   );
+  // Fallback: return products that have images
+  if (!products.length) {
+    [products] = await db.query(
+      `SELECT p.id, p.name, p.slug, p.sku, p.isBestseller, p.isNew, p.ageGroup,
+              b.name as brandName, b.id as brandId,
+              (SELECT url FROM product_images WHERE productId = p.id AND isPrimary = 1 LIMIT 1) as imageUrl,
+              (SELECT price FROM product_variants WHERE productId = p.id AND isDefault = 1 LIMIT 1) as price,
+              (SELECT comparePrice FROM product_variants WHERE productId = p.id AND isDefault = 1 LIMIT 1) as comparePrice,
+              (SELECT id FROM product_variants WHERE productId = p.id AND isDefault = 1 LIMIT 1) as variantId,
+              (SELECT AVG(rating) FROM reviews WHERE productId = p.id AND status = 'APPROVED') as averageRating,
+              (SELECT COUNT(*) FROM reviews WHERE productId = p.id AND status = 'APPROVED') as reviewCount
+       FROM products p LEFT JOIN brands b ON b.id = p.brandId
+       WHERE p.status = 'ACTIVE' AND p.deletedAt IS NULL
+         AND EXISTS (SELECT 1 FROM product_images pi WHERE pi.productId = p.id AND pi.isPrimary = 1)
+         AND EXISTS (SELECT 1 FROM product_variants pv WHERE pv.productId = p.id AND pv.isDefault = 1)
+       ORDER BY p.createdAt DESC LIMIT ?`, [limit]
+    );
+  }
   res.json({ success: true, data: products.map(formatProduct) });
 };
 
 // GET /products/bestsellers
 exports.getBestsellers = async (req, res) => {
   const limit = parseInt(req.query.limit) || 12;
-  const [products] = await db.query(
+  let [products] = await db.query(
     `SELECT p.id, p.name, p.slug, p.sku, p.isBestseller, p.isNew, p.ageGroup,
             b.name as brandName, b.id as brandId,
             (SELECT url FROM product_images WHERE productId = p.id AND isPrimary = 1 LIMIT 1) as imageUrl,
@@ -119,6 +138,24 @@ exports.getBestsellers = async (req, res) => {
      WHERE p.isBestseller = 1 AND p.status = 'ACTIVE' AND p.deletedAt IS NULL
      ORDER BY p.createdAt DESC LIMIT ?`, [limit]
   );
+  // Fallback: return products with images ordered by newest
+  if (!products.length) {
+    [products] = await db.query(
+      `SELECT p.id, p.name, p.slug, p.sku, p.isBestseller, p.isNew, p.ageGroup,
+              b.name as brandName, b.id as brandId,
+              (SELECT url FROM product_images WHERE productId = p.id AND isPrimary = 1 LIMIT 1) as imageUrl,
+              (SELECT price FROM product_variants WHERE productId = p.id AND isDefault = 1 LIMIT 1) as price,
+              (SELECT comparePrice FROM product_variants WHERE productId = p.id AND isDefault = 1 LIMIT 1) as comparePrice,
+              (SELECT id FROM product_variants WHERE productId = p.id AND isDefault = 1 LIMIT 1) as variantId,
+              (SELECT AVG(rating) FROM reviews WHERE productId = p.id AND status = 'APPROVED') as averageRating,
+              (SELECT COUNT(*) FROM reviews WHERE productId = p.id AND status = 'APPROVED') as reviewCount
+       FROM products p LEFT JOIN brands b ON b.id = p.brandId
+       WHERE p.status = 'ACTIVE' AND p.deletedAt IS NULL
+         AND EXISTS (SELECT 1 FROM product_images pi WHERE pi.productId = p.id AND pi.isPrimary = 1)
+         AND EXISTS (SELECT 1 FROM product_variants pv WHERE pv.productId = p.id AND pv.isDefault = 1)
+       ORDER BY RAND() LIMIT ?`, [limit]
+    );
+  }
   res.json({ success: true, data: products.map(formatProduct) });
 };
 
